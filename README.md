@@ -37,7 +37,5 @@ Optional parts that could be added to this app are functionalities like:
 •	Rewards for earning a lot of points: Change your points for rewards like a beer or a home cooked meal.
 
 •	Advanced point system: Do a tasks exactly on the day it should be done and get extra points.
-
 •	History: Who has done which tasks.
-
 • Several houses: Add more houses to one person.
