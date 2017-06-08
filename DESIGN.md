@@ -6,8 +6,10 @@ This app will use the data base Firebase
 
 View Controllers Overview
 - LoginViewController:
+
   This view controller needs to be able to send user email and user password.
 - HouseViewController:
+
   Have access to: House name, rooms in the house and corresponding priority levels.
   Be able to send: A new room name.
 - RoomViewController:
