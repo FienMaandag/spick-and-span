@@ -2,7 +2,7 @@
 In this document the technical design of the app Spick and Span will be discussed
 
 # Firebase
-This app will use the database Firebase
+This app will use the database Firebase  
 {
   "houses": {  
     "secretCode1": {  
@@ -17,9 +17,9 @@ This app will use the database Firebase
           "taskPoints" : "2",  
           "taskDone" : "timestamp",  
           "taskPriority" : "?"  
-        },  
-      },  
-    }  
+        },
+      },
+    }
   }  
   "History" : {  
     "secretCode1": {  
@@ -31,12 +31,12 @@ This app will use the database Firebase
       "task" : "dust",  
       "doneBy" : "user2",  
       "time" : "timestamp"  
-    }  
+    }
   }  
   "Users" : {  
     "userEmail" : "email",  
     "totalPoints" : "100"  
-  }  
+  }
 }  
 
 
