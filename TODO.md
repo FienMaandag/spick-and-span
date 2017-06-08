@@ -6,3 +6,4 @@
 - Look up how to login
 - Think of a database structure
 - struct overview design document
+- check what segue has to be preformed after the login screen
