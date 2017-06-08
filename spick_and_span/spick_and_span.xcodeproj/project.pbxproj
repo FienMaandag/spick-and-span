@@ -21,6 +21,7 @@
 		211F80EF1EE831EF005E1357 /* ScoreBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211F80EE1EE831EE005E1357 /* ScoreBoardViewController.swift */; };
 		211F80F11EE83242005E1357 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211F80F01EE83242005E1357 /* HistoryViewController.swift */; };
 		211F80F31EE8326E005E1357 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211F80F21EE8326E005E1357 /* SettingsViewController.swift */; };
+		7C7D39E40E93D9BB15CD5E08 /* Pods_spick_and_span.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CB402A4242A5461DD322AD4 /* Pods_spick_and_span.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,9 @@
 		211F80EE1EE831EE005E1357 /* ScoreBoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreBoardViewController.swift; sourceTree = "<group>"; };
 		211F80F01EE83242005E1357 /* HistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		211F80F21EE8326E005E1357 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		240D97BE594DABBF24426A64 /* Pods-spick_and_span.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-spick_and_span.release.xcconfig"; path = "Pods/Target Support Files/Pods-spick_and_span/Pods-spick_and_span.release.xcconfig"; sourceTree = "<group>"; };
+		7CB402A4242A5461DD322AD4 /* Pods_spick_and_span.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_spick_and_span.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB9EB01DBE3AE7051594BD0C /* Pods-spick_and_span.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-spick_and_span.debug.xcconfig"; path = "Pods/Target Support Files/Pods-spick_and_span/Pods-spick_and_span.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,17 +51,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C7D39E40E93D9BB15CD5E08 /* Pods_spick_and_span.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		001170C99A05D6F904076E35 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AB9EB01DBE3AE7051594BD0C /* Pods-spick_and_span.debug.xcconfig */,
+				240D97BE594DABBF24426A64 /* Pods-spick_and_span.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		211F80C41EE75711005E1357 = {
 			isa = PBXGroup;
 			children = (
 				211F80CF1EE75712005E1357 /* spick_and_span */,
 				211F80CE1EE75712005E1357 /* Products */,
+				001170C99A05D6F904076E35 /* Pods */,
+				B18D37AD8866828C1ED6ECDA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -91,6 +107,14 @@
 			path = spick_and_span;
 			sourceTree = "<group>";
 		};
+		B18D37AD8866828C1ED6ECDA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7CB402A4242A5461DD322AD4 /* Pods_spick_and_span.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -98,9 +122,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 211F80DF1EE75714005E1357 /* Build configuration list for PBXNativeTarget "spick_and_span" */;
 			buildPhases = (
+				37B4CDD06331D5760286D688 /* [CP] Check Pods Manifest.lock */,
 				211F80C91EE75712005E1357 /* Sources */,
 				211F80CA1EE75712005E1357 /* Frameworks */,
 				211F80CB1EE75712005E1357 /* Resources */,
+				CF858069CB967C7AFA200E43 /* [CP] Embed Pods Frameworks */,
+				E9DD6F495AB3EB7E37719652 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -158,6 +185,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		37B4CDD06331D5760286D688 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		CF858069CB967C7AFA200E43 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-spick_and_span/Pods-spick_and_span-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E9DD6F495AB3EB7E37719652 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-spick_and_span/Pods-spick_and_span-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		211F80C91EE75712005E1357 /* Sources */ = {
@@ -297,6 +372,7 @@
 		};
 		211F80E01EE75714005E1357 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB9EB01DBE3AE7051594BD0C /* Pods-spick_and_span.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 8FQYY82D7T;
@@ -310,6 +386,7 @@
 		};
 		211F80E11EE75714005E1357 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 240D97BE594DABBF24426A64 /* Pods-spick_and_span.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 8FQYY82D7T;
