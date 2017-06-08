@@ -5,4 +5,4 @@
 - Think of a priority calculation for task and for room
 - Look up how to login
 - Think of a database structure
- 
+- struct overview design document
