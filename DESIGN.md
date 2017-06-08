@@ -4,40 +4,40 @@ In this document the technical design of the app Spick and Span will be discusse
 # Firebase
 This app will use the database Firebase
 {
-  "houses": {
-    "secretCode1": {
-      "secretCode" : "secretCode1"
-      "name": "Baasje G",
-      "rooms": {
-        "roomName": "LivingRoom",
-        "roomPriority" : "?",
-        "tasks": {
-          "taskName" : "Vacuum",
-          "taskFrequency" : "5",
-          "taskPoints" : "2",
-          "taskDone" : "timestamp",
-          "taskPriority" : "?"
-        },
-      },
-    }
-  }
-  "History" : {
-    "secretCode1": {
-      "task" : "vacuum",
-      "doneBy" : "user1",
-      "time" : "timestamp"
-    },
-    "secretCode2": {
-      "task" : "dust",
-      "doneBy" : "user2",
-      "time" : "timestamp"
-    }
-  }
-  "Users" : {
-    "userEmail" : "email",
-    "totalPoints" : "100"
-  }
-}
+  "houses": {  
+    "secretCode1": {  
+      "secretCode" : "secretCode1"  
+      "name": "Baasje G",  
+      "rooms": {  
+        "roomName": "LivingRoom",  
+        "roomPriority" : "?",  
+        "tasks": {  
+          "taskName" : "Vacuum",  
+          "taskFrequency" : "5",  
+          "taskPoints" : "2",  
+          "taskDone" : "timestamp",  
+          "taskPriority" : "?"  
+        },  
+      },  
+    }  
+  }  
+  "History" : {  
+    "secretCode1": {  
+      "task" : "vacuum",  
+      "doneBy" : "user1",  
+      "time" : "timestamp"  
+    },  
+    "secretCode2": {  
+      "task" : "dust",  
+      "doneBy" : "user2",  
+      "time" : "timestamp"  
+    }  
+  }  
+  "Users" : {  
+    "userEmail" : "email",  
+    "totalPoints" : "100"  
+  }  
+}  
 
 
 # View Controllers Overview
