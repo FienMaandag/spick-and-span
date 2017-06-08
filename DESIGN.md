@@ -5,20 +5,18 @@ In this document the technical design of the app Spick and Span will be discusse
 This app will use the data base Firebase
 
 View Controllers Overview
-- LoginViewController:
-
+- LoginViewController:\n
   This view controller needs to be able to send user email and user password.
-- HouseViewController:
-
+- HouseViewController:\n
   Have access to: House name, rooms in the house and corresponding priority levels.
   Be able to send: A new room name.
-- RoomViewController:
-  Have access to: Room name, tasks for room and priority levels.
-  Be able to send:
-    For saving a new task: Task name with corresponding frequency level and points.
+- RoomViewController:\n
+  Have access to: Room name, tasks for room and priority levels.\n
+  Be able to send:\n
+    For saving a new task: Task name with corresponding frequency level and points.\n
     For updating a task done: Priority level. And username, task, time and points earned.
-- AddHouseViewController:
-  Have access to: House name.
+- AddHouseViewController:\n
+  Have access to: House name.\n
   Be able to send: Secret code or new room name.
-- NewHouseViewController:
-  Have access to: House name and secret code
+- NewHouseViewController:\n
+  Have access to: House name and secret code\n
