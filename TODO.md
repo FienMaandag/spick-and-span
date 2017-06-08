@@ -7,3 +7,6 @@
 - Think of a database structure
 - struct overview design document
 - check what segue has to be preformed after the login screen
+- settings layout
+- password secret
+-

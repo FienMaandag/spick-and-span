@@ -41,9 +41,12 @@ class LoginViewController: UIViewController {
             
             Auth.auth().createUser(withEmail: email!, password: password!) { (user, error) in
                 if error == nil {
-                    // sign in 
-                    // preform segue if house is present or not present
-                    self.performSegue(withIdentifier: "toHouseVC", sender: nil)
+                    Auth.auth().signIn(withEmail: email!, password: password!) { (user, error) in
+                        if error == nil {
+                            // preform segue if house is present or not present
+                            self.performSegue(withIdentifier: "toHouseVC", sender: nil)
+                        }
+                    }
                 }
             }
         }
@@ -58,6 +61,7 @@ class LoginViewController: UIViewController {
         
         alert.addTextField { password in
             password.placeholder = "Password"
+            password.isSecureTextEntry = true
         }
         
         alert.addAction(registerAction)

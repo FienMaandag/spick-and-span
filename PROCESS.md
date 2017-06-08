@@ -9,3 +9,4 @@ The idea of the app was defined today. An important decision was to make a point
 Today the layout was created in Xcode. A change in the layout was changing the hamburger menu option to a tab bar on the bottom of the page. This decision was made because it is more IOS like. Because of this the options leave house, logout and secret code have been merged together to a tab settings.
 
 # Day 4
+Today the design document was setup. The database was structured and the first step for a functioning login was made. 
