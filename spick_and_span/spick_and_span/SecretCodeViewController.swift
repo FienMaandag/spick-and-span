@@ -7,29 +7,39 @@
 //
 
 import UIKit
+import Firebase
 
 class SecretCodeViewController: UIViewController {
-
+    
+    @IBOutlet weak var houseNameLabel: UILabel!
+    @IBOutlet weak var secretCodeLabel: UILabel!
+    @IBOutlet weak var toHouseButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        toHouseButton.layer.borderWidth = 1
+        toHouseButton.layer.borderColor = UIColor.white.cgColor
+        
+        let userID = Auth.auth().currentUser?.uid
+        let ref = Database.database().reference()
+        
+        ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
+            // Get user value
+            let value = snapshot.value as? NSDictionary
+            let secretCode = value?["houseKey"] as? String ?? ""
+            let houseName = value?["houseName"] as? String ?? ""
+            
+            self.houseNameLabel.text = houseName.uppercased()
+            self.secretCodeLabel.text = secretCode
 
-        // Do any additional setup after loading the view.
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

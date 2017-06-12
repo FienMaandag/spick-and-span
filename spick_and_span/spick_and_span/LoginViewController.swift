@@ -12,6 +12,8 @@ import Firebase
 class LoginViewController: UIViewController {
 
     @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var userEmailInput: UITextField!
+    @IBOutlet weak var userPasswordInput: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,12 +21,27 @@ class LoginViewController: UIViewController {
         loginButton.layer.borderWidth = 1
         loginButton.layer.borderColor = UIColor.white.cgColor
         
-        // Do any additional setup after loading the view, typically from a nib.
+        self.hideKeyboardWhenTappedAround()
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+
+    @IBAction func loginButtonClicked(_ sender: Any) {
+        // add error catch if no input has been given
+        let email = userEmailInput.text
+        let password = userPasswordInput.text
+        
+        Auth.auth().signIn(withEmail: email!, password: password!) { (user, error) in
+            if error == nil {
+                // preform segue if house is present or not present
+                self.performSegue(withIdentifier: "toNewHouseVC", sender: nil)
+            }
+            // add else error statement not able to sign in
+        }
     }
 
     @IBAction func registerButtonClicked(_ sender: UIButton) {
@@ -44,7 +61,7 @@ class LoginViewController: UIViewController {
                     Auth.auth().signIn(withEmail: email!, password: password!) { (user, error) in
                         if error == nil {
                             // preform segue if house is present or not present
-                            self.performSegue(withIdentifier: "toHouseVC", sender: nil)
+                            self.performSegue(withIdentifier: "toNewHouseVC", sender: nil)
                         }
                     }
                 }
