@@ -9,4 +9,7 @@ The idea of the app was defined today. An important decision was to make a point
 Today the layout was created in Xcode. A change in the layout was changing the hamburger menu option to a tab bar on the bottom of the page. This decision was made because it is more IOS like. Because of this the options leave house, logout and secret code have been merged together to a tab settings.
 
 # Day 4
-Today the design document was setup. The database was structured and the first step for a functioning login was made. 
+Today the design document was setup. The database was structured and the first step for a functioning login was made.
+
+# Day 7
+Today the login function and register function were created. There are still some problems with adding an existing house to a user. I am not quite sure yet what is going wrong. Also i was doubting about the exact setup for the database. I now created a table with houses which also has users inside and a users table with the house they belong to. I made this decision because i thought it might be easier to select houses and users for certain views like the high score view and the addhouseview. 
