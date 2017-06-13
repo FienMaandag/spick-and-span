@@ -17,11 +17,12 @@ class NewHouseViewController: UIViewController {
     @IBOutlet weak var userHouseInput: UITextField!
     
     var houseName: String?
+    let ref = Database.database().reference()
+    let user = Auth.auth().currentUser
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("hallo")
         addButton.layer.borderWidth = 1
         addButton.layer.borderColor = UIColor.white.cgColor
         
@@ -35,92 +36,70 @@ class NewHouseViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
 
-    @IBAction func addButtonClicked(_ sender: UIButton) {
-        print("1")
+    @IBAction func addButtonClicked(_ sender: Any) {
+        // TODO add an if statement to check for user input
         let secretCode = userCodeInput.text!
-        print(secretCode)
-        // TO DO add error if there is no input
-        
-        let ref = Database.database().reference()
-        print("2")
-        // HIERNA EEN UITPAK FOUT
-        ref.child("houses").child(userCodeInput.text!).observeSingleEvent(of: .value, with: { (snapshot) in
-            print("3")
+
+        ref.child("houses").child(secretCode).observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
-            print("4")
-            self.houseName = value?["name"] as? String ?? ""
-            print("5")
+            let houseName = value?["name"] as? String ?? ""
             
-        }) { (error) in
-            print(error.localizedDescription)
-        }
-        
-        let alert = UIAlertController(title: "Add house",
-                                      message: "Are you sure you want to add this house with the name: \(houseName!)",
-                                      preferredStyle: .alert)
-        
-        // Save room for house
-        let addAction = UIAlertAction(title: "Add", style: .default) { action in
-            // add house to user and user to house?
+            let alert = UIAlertController(title: "Add house",
+                                          message: "Are you sure you want to add the house with the name: \(String(describing: houseName))",
+                preferredStyle: .alert)
             
-            let ref = Database.database().reference()
-            let user = Auth.auth().currentUser
-            
-            let houseRef = ref.child("houses").child(secretCode).child("users")
-            let userRef = ref.child("users").child((user?.uid)!)
-            
-            houseRef.updateChildValues([
-                "users": ([
-                    "userID": user?.uid,
-                    "userEmail": user?.email,
+            let addAction = UIAlertAction(title: "Add", style: .default) { action in
+                
+                let houseRef = self.ref.child("houses/\(secretCode)/users").child((self.user?.uid)!)
+                let userRef = self.ref.child("users").child((self.user?.uid)!)
+
+                houseRef.setValue([
+                    "userEmail": self.user?.email,
                     "totalPoints": "0"
                     ])
-                ])
+                
+                userRef.setValue([
+                    "houseKey": secretCode,
+                    "houseName": houseName])
+                
+                self.performSegue(withIdentifier: "fromNewToHouseVC", sender: nil)
+            }
             
-            userRef.setValue([
-                "houseKey": houseRef.key,
-                "houseName": self.houseName])
+            let cancelAction = UIAlertAction(title: "Cancel",
+                                             style: .default)
             
-            self.performSegue(withIdentifier: "toSecretCodeVC", sender: nil)
+            alert.addAction(addAction)
+            alert.addAction(cancelAction)
             
-            self.performSegue(withIdentifier: "fromNewToHouseVC", sender: nil)
-        }
-        
-        // Closes alert
-        let cancelAction = UIAlertAction(title: "Cancel",
-                                         style: .default)
+            self.present(alert, animated: true, completion: nil)
 
-        alert.addAction(addAction)
-        alert.addAction(cancelAction)
         
-        present(alert, animated: true, completion: nil)
-        
+        }) { (error) in
+            print(error.localizedDescription)
+            print("no such house found")
+        }
     }
     
     @IBAction func createButtonClicked(_ sender: UIButton) {
-        let houseName = userHouseInput.text
-        
-        // add error message if no input is found
+        // TODO add if statement to check for user input
+        let houseName = userHouseInput.text!
         
         let alert = UIAlertController(title: "Create house",
                                       message: "Are you sure you want to creat a house with the name: \(String(describing: houseName))",
                                       preferredStyle: .alert)
         
         let createAction = UIAlertAction(title: "Create", style: .default) { action in
-            let ref = Database.database().reference()
-            let user = Auth.auth().currentUser
+            let houseRef = self.ref.child("houses").childByAutoId()
+            let userRef = self.ref.child("users").child((self.user?.uid)!)
             
-            let houseRef = ref.child("houses").childByAutoId()
-            let userRef = ref.child("users").child((user?.uid)!)
-            
-            // TODO hoe kan ik de user op de id sorteren :(
             houseRef.setValue([
-                "name": houseName!,
+                "name": houseName,
                 "secret code": houseRef.key,
                 "users": ([
-                    "userID": user?.uid,
-                    "userEmail": user?.email,
-                    "totalPoints": "0"
+                    "\((self.user?.uid)!)": ([
+                        "userEmail": self.user?.email,
+                        "totalPoints": "0"
+                    ])
                 ])
             ])
             
@@ -129,10 +108,8 @@ class NewHouseViewController: UIViewController {
                 "houseName": houseName])
             
             self.performSegue(withIdentifier: "toSecretCodeVC", sender: nil)
-
         }
         
-        // Closes alert
         let cancelAction = UIAlertAction(title: "Cancel",
                                          style: .default)
         
@@ -140,8 +117,6 @@ class NewHouseViewController: UIViewController {
         alert.addAction(cancelAction)
         
         present(alert, animated: true, completion: nil)
-
-
     }
     
 }

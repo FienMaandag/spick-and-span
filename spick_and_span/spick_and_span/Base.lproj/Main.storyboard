@@ -176,7 +176,7 @@
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="addButtonClicked:" destination="kUH-kw-8D0" eventType="touchUpInside" id="HIO-6K-HTT"/>
+                                    <action selector="addButtonClicked:" destination="kUH-kw-8D0" eventType="touchUpInside" id="EcA-8b-x8m"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qQh-QL-YcO">
@@ -227,7 +227,7 @@
                         <outlet property="userCodeInput" destination="hr4-tT-sWM" id="Cfh-Fo-qET"/>
                         <outlet property="userHouseInput" destination="xsp-cD-IFJ" id="uSZ-mF-YqU"/>
                         <segue destination="Dpn-pl-Ltm" kind="show" identifier="toSecretCodeVC" id="8CM-cS-lGn"/>
-                        <segue destination="E60-rh-pF0" kind="show" identifier="fromNewToHouse" id="amj-cN-CWQ"/>
+                        <segue destination="E60-rh-pF0" kind="show" identifier="fromNewToHouseVC" id="amj-cN-CWQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GkW-q2-mIG" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -580,6 +580,8 @@
                     <tabBarItem key="tabBarItem" title="Settings" image="settings" id="UOp-bo-0W7"/>
                     <connections>
                         <outlet property="logOutButton" destination="6Bv-UL-6ZG" id="DqN-an-DSx"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="fromSettingsToLoginVC" id="uPg-hh-XDz"/>
+                        <segue destination="kUH-kw-8D0" kind="show" identifier="fromSettingsToNewVC" id="9al-E3-JKQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LOq-5b-TeH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -675,6 +677,7 @@
         <image name="settings" width="16" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="yGR-Bm-vKa"/>
+        <segue reference="amj-cN-CWQ"/>
+        <segue reference="9al-E3-JKQ"/>
     </inferredMetricsTieBreakers>
 </document>

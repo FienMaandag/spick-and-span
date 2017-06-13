@@ -22,25 +22,33 @@ class LoginViewController: UIViewController {
         loginButton.layer.borderColor = UIColor.white.cgColor
         
         self.hideKeyboardWhenTappedAround()
-        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     @IBAction func loginButtonClicked(_ sender: Any) {
-        // add error catch if no input has been given
+        // TODO add error catch if no input has been given
         let email = userEmailInput.text
         let password = userPasswordInput.text
         
         Auth.auth().signIn(withEmail: email!, password: password!) { (user, error) in
             if error == nil {
-                // preform segue if house is present or not present
-                self.performSegue(withIdentifier: "toNewHouseVC", sender: nil)
+                let ref = Database.database().reference()
+                let currentUser = Auth.auth().currentUser
+                
+                ref.child("users").child((currentUser?.uid)!).observeSingleEvent(of: .value, with: { (snapshot) in
+                    if let value = snapshot.value as? NSDictionary {
+                        self.performSegue(withIdentifier: "toHouseVC", sender: nil)
+                    } else {
+                        self.performSegue(withIdentifier: "toNewHouseVC", sender: nil)
+                    }
+                }) { (error) in
+                    print(error.localizedDescription)
+                }
             }
-            // add else error statement not able to sign in
+            // TODO add else error statement not able to sign in
         }
     }
 
@@ -49,10 +57,11 @@ class LoginViewController: UIViewController {
                                       message: "Register with email and password",
                                       preferredStyle: .alert)
         
-        // Save room for house
         let registerAction = UIAlertAction(title: "Register", style: .default) { action in
             let emailField = alert.textFields![0]
             let passwordField = alert.textFields![1]
+            
+            // TODO add error catch if no input has been given
             let email = emailField.text
             let password = passwordField.text
             

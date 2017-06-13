@@ -12,4 +12,7 @@ Today the layout was created in Xcode. A change in the layout was changing the h
 Today the design document was setup. The database was structured and the first step for a functioning login was made.
 
 # Day 7
-Today the login function and register function were created. There are still some problems with adding an existing house to a user. I am not quite sure yet what is going wrong. Also i was doubting about the exact setup for the database. I now created a table with houses which also has users inside and a users table with the house they belong to. I made this decision because i thought it might be easier to select houses and users for certain views like the high score view and the addhouseview. 
+Today the login function and register function were created. There are still some problems with adding an existing house to a user. I am not quite sure yet what is going wrong. Also i was doubting about the exact setup for the database. I now created a table with houses which also has users inside and a users table with the house they belong to. I made this decision because i thought it might be easier to select houses and users for certain views like the high score view and the addhouseview.
+
+# Day 8
+It is now possible to add a house and the login function checks if the user is already connected to a house. Also the logout options is created. 
