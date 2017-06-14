@@ -1,0 +1,8 @@
+exclude:
+- /spick_and_span/Pods/.*
+component_depth: 1
+languages:
+- objectivec
+- ruby
+- script
+- swift
