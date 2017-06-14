@@ -41,3 +41,6 @@ Optional parts that could be added to this app are functionalities like:
 •	History: Who has done which tasks.
 
 • Several houses: Add more houses to one person.
+
+[![BCH compliance](https://bettercodehub.com/edge/badge/FienMaandag/spick-and-span?branch=master)](https://bettercodehub.com/)
+
