@@ -1,3 +1,4 @@
+
 //
 //  RoomViewController.swift
 //  spick_and_span
@@ -7,16 +8,29 @@
 //
 
 import UIKit
+import Firebase
 
 class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet var tableView: UITableView!
     var tasks = ["Vacuum", "Dust"]
+    let ref = Database.database().reference()
+    var houseKey = String()
+    var roomName = String()
+    let currentUser = Auth.auth().currentUser
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationItem.title = self.roomName
 
-        // Do any additional setup after loading the view.
+        ref.child("users").child((currentUser?.uid)!).observeSingleEvent(of: .value, with: { (snapshot) in
+            let value = snapshot.value as? NSDictionary
+            self.houseKey = value?["houseKey"] as? String ?? ""
+            
+        }) { (error) in
+            print(error.localizedDescription)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,22 +51,58 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return cell
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
+        let done = UITableViewRowAction(style: .normal, title: "Done") { action, index in
+            // update firebase history
+            let indexPath = editActionsForRowAt
+            print(indexPath)
+            let historyRef = self.ref.child("houses/\(self.houseKey)/history/\(Date())")
+            let selectedTask = self.tasks[indexPath.row]
+            print(selectedTask)
+            
+            historyRef.setValue([
+                "doneBy": self.currentUser?.email,
+                "task": selectedTask,
+                "time": Date()
+                ])
+            
+            // update firebase total points
+            // update priority level task
+        }
+        done.backgroundColor = .white
+        
+        return [done]
+    }
+    
     @IBAction func addTaskButtonClicked(_ sender: UIBarButtonItem) {
         
         let alert = UIAlertController(title: "New Task",
-                                      message: "Choose a name for this task",
+                                      message: "Configure a new task",
                                       preferredStyle: .alert)
         
         // Save room for house
         let saveAction = UIAlertAction(title: "Save", style: .default) { action in
             let taskNameField = alert.textFields![0]
-            let text = taskNameField.text
+            let taskFrequencyField = alert.textFields![1]
+            let taskPointsField = alert.textFields![2]
             
-            // update firebase
-            // let plant = self.plants[indexPath.row]
-            // self.ref.updateChildValues([
-            //    "\(plant.key)/nickname" : text
-            //    ])
+            let taskName = taskNameField.text
+            let taskFrequency = taskFrequencyField.text
+            let taskPoints = taskPointsField.text
+            
+            let roomRef = self.ref.child("houses/\(self.houseKey)/rooms/\(self.roomName)/tasks/\(String(describing: taskName))")
+            
+            roomRef.setValue([
+                "taskName": taskName,
+                "taskFrequency": taskFrequency,
+                "taskPoints": taskPoints,
+                "taskDone": "",
+                "taskPriority": ""
+                ])
         }
         
         // Closes alert
@@ -63,12 +113,17 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
             taskName.placeholder = "Task Name"
         }
         
+        alert.addTextField { taskFrequency in
+            taskFrequency.placeholder = "Task Frequency"
+        }
+        
+        alert.addTextField { taskPoints in
+            taskPoints.placeholder = "Task Points"
+        }
+        
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
         
         present(alert, animated: true, completion: nil)
     }
-    
-
-    
 }
