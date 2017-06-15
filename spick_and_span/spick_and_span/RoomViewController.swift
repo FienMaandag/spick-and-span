@@ -59,21 +59,23 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let done = UITableViewRowAction(style: .normal, title: "Done") { action, index in
             // update firebase history
             let indexPath = editActionsForRowAt
-            print(indexPath)
-            let historyRef = self.ref.child("houses/\(self.houseKey)/history/\(Date())")
             let selectedTask = self.tasks[indexPath.row]
-            print(selectedTask)
             
+            DateFormatter().dateFormat = "yyyyMMdd"
+            let today = DateFormatter().string(from: Date())
+            
+            let historyRef = self.ref.child("houses/\(self.houseKey)/history/\(today)")
+
             historyRef.setValue([
                 "doneBy": self.currentUser?.email,
                 "task": selectedTask,
-                "time": Date()
+                "time": today
                 ])
             
             // update firebase total points
             // update priority level task
         }
-        done.backgroundColor = .white
+        done.backgroundColor = .lightGray
         
         return [done]
     }
