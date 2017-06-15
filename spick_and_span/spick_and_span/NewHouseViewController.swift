@@ -16,13 +16,13 @@ class NewHouseViewController: UIViewController {
     @IBOutlet weak var userCodeInput: UITextField!
     @IBOutlet weak var userHouseInput: UITextField!
     
-    var houseName: String?
     let ref = Database.database().reference()
-    let user = Auth.auth().currentUser
+    let currentUser = Auth.auth().currentUser
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // TODO make a function for border settings
         addButton.layer.borderWidth = 1
         addButton.layer.borderColor = UIColor.white.cgColor
         
@@ -38,11 +38,11 @@ class NewHouseViewController: UIViewController {
 
     @IBAction func addButtonClicked(_ sender: Any) {
         // TODO add an if statement to check for user input
-        let secretCode = userCodeInput.text!
+        let houseKey = userCodeInput.text!
 
-        ref.child("houses").child(secretCode).observeSingleEvent(of: .value, with: { (snapshot) in
+        ref.child("houses").child(houseKey).observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
-            let houseName = value?["name"] as? String ?? ""
+            let houseName = value?["houseName"] as? String ?? ""
             
             let alert = UIAlertController(title: "Add house",
                                           message: "Are you sure you want to add the house with the name: \(String(describing: houseName))",
@@ -50,16 +50,16 @@ class NewHouseViewController: UIViewController {
             
             let addAction = UIAlertAction(title: "Add", style: .default) { action in
                 
-                let houseRef = self.ref.child("houses/\(secretCode)/users").child((self.user?.uid)!)
-                let userRef = self.ref.child("users").child((self.user?.uid)!)
+                let houseRef = self.ref.child("houses/\(houseKey)/users").child((self.currentUser?.uid)!)
+                let userRef = self.ref.child("users").child((self.currentUser?.uid)!)
 
                 houseRef.setValue([
-                    "userEmail": self.user?.email,
+                    "userEmail": self.currentUser?.email,
                     "totalPoints": "0"
                     ])
                 
                 userRef.setValue([
-                    "houseKey": secretCode,
+                    "houseKey": houseKey,
                     "houseName": houseName])
                 
                 self.performSegue(withIdentifier: "fromNewToHouseVC", sender: nil)
@@ -90,14 +90,14 @@ class NewHouseViewController: UIViewController {
         
         let createAction = UIAlertAction(title: "Create", style: .default) { action in
             let houseRef = self.ref.child("houses").childByAutoId()
-            let userRef = self.ref.child("users").child((self.user?.uid)!)
+            let userRef = self.ref.child("users").child((self.currentUser?.uid)!)
             
             houseRef.setValue([
-                "name": houseName,
-                "secret code": houseRef.key,
+                "houseName": houseName,
+                "houseKey": houseRef.key,
                 "users": ([
-                    "\((self.user?.uid)!)": ([
-                        "userEmail": self.user?.email,
+                    "\((self.currentUser?.uid)!)": ([
+                        "userEmail": self.currentUser?.email,
                         "totalPoints": "0"
                     ])
                 ])

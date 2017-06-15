@@ -12,26 +12,29 @@ import Firebase
 class SecretCodeViewController: UIViewController {
     
     @IBOutlet weak var houseNameLabel: UILabel!
-    @IBOutlet weak var secretCodeLabel: UILabel!
+    @IBOutlet weak var houseKeyLabel: UILabel!
     @IBOutlet weak var toHouseButton: UIButton!
+    @IBOutlet weak var houseKeyField: UITextField!
+    
+    let userID = Auth.auth().currentUser?.uid
+    let ref = Database.database().reference()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // TODO add funtion for border settings
         toHouseButton.layer.borderWidth = 1
         toHouseButton.layer.borderColor = UIColor.white.cgColor
-        
-        let userID = Auth.auth().currentUser?.uid
-        let ref = Database.database().reference()
         
         ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
             // Get user value
             let value = snapshot.value as? NSDictionary
-            let secretCode = value?["houseKey"] as? String ?? ""
+            let houseKey = value?["houseKey"] as? String ?? ""
             let houseName = value?["houseName"] as? String ?? ""
             
             self.houseNameLabel.text = houseName.uppercased()
-            self.secretCodeLabel.text = secretCode
+            self.houseKeyLabel.text = houseKey
+            self.houseKeyField.text = houseKey
 
         }) { (error) in
             print(error.localizedDescription)

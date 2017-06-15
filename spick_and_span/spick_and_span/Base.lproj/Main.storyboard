@@ -272,12 +272,19 @@
                                     <segue destination="E60-rh-pF0" kind="show" id="yGR-Bm-vKa"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HOUSE NAME" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a3a-7t-6Yr">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HOUSE NAME" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a3a-7t-6Yr">
                                 <rect key="frame" x="38" y="66" width="299" height="58"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-UltraLight" family="Helvetica Neue" pointSize="50"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="JGLJGHKJG" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="647-rS-S4a">
+                                <rect key="frame" x="38" y="218" width="299" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -300,8 +307,9 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="houseKeyField" destination="647-rS-S4a" id="iXS-fe-4VQ"/>
+                        <outlet property="houseKeyLabel" destination="dQb-wg-2ea" id="grr-Bx-DyF"/>
                         <outlet property="houseNameLabel" destination="a3a-7t-6Yr" id="gZZ-ak-of5"/>
-                        <outlet property="secretCodeLabel" destination="dQb-wg-2ea" id="GaL-rN-lVy"/>
                         <outlet property="toHouseButton" destination="kzk-8b-X4U" id="8gt-dH-eZ7"/>
                     </connections>
                 </viewController>
@@ -496,7 +504,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Bv-UL-6ZG">
-                                <rect key="frame" x="18" y="562" width="343" height="40"/>
+                                <rect key="frame" x="18" y="611" width="343" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="S4q-OD-drb"/>
                                 </constraints>
@@ -521,13 +529,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0GZ-dQ-E5q">
-                                <rect key="frame" x="18" y="386" width="343" height="112"/>
+                                <rect key="frame" x="18" y="386" width="343" height="161"/>
                                 <string key="text">If you currently do not live in this house anymore you can leave this house and add a new house to your personal account. You can leave your current house bij clicking the button below.</string>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-UltraLight" family="Helvetica Neue" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eed-QD-5Ts">
-                                <rect key="frame" x="18" y="506" width="343" height="40"/>
+                                <rect key="frame" x="18" y="555" width="343" height="40"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="5Vv-DO-5Ip"/>
@@ -536,6 +544,9 @@
                                 <state key="normal" title="Leave This House">
                                     <color key="titleColor" red="0.50196081400000003" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="leaveHouseButtonClicked:" destination="bHJ-2Q-hQX" eventType="touchUpInside" id="EhB-a6-4E4"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Secret Code: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NUe-oh-Pef">
                                 <rect key="frame" x="16" y="95" width="343" height="35"/>
@@ -579,6 +590,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Settings" image="settings" id="UOp-bo-0W7"/>
                     <connections>
+                        <outlet property="leaveHouseButton" destination="Eed-QD-5Ts" id="1xd-89-OEE"/>
                         <outlet property="logOutButton" destination="6Bv-UL-6ZG" id="DqN-an-DSx"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="fromSettingsToLoginVC" id="uPg-hh-XDz"/>
                         <segue destination="kUH-kw-8D0" kind="show" identifier="fromSettingsToNewVC" id="9al-E3-JKQ"/>
@@ -677,7 +689,7 @@
         <image name="settings" width="16" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="amj-cN-CWQ"/>
+        <segue reference="yGR-Bm-vKa"/>
         <segue reference="9al-E3-JKQ"/>
     </inferredMetricsTieBreakers>
 </document>

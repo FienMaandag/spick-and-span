@@ -14,6 +14,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var userEmailInput: UITextField!
     @IBOutlet weak var userPasswordInput: UITextField!
+    var houseName = String()
+    var houseKey = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,10 +40,16 @@ class LoginViewController: UIViewController {
                 let ref = Database.database().reference()
                 let currentUser = Auth.auth().currentUser
                 
+                // check if user is in table users
                 ref.child("users").child((currentUser?.uid)!).observeSingleEvent(of: .value, with: { (snapshot) in
                     if let value = snapshot.value as? NSDictionary {
+                        self.houseKey = value["houseKey"] as? String ?? ""
+                        self.houseName = value["houseName"] as? String ?? ""
+
                         self.performSegue(withIdentifier: "toHouseVC", sender: nil)
-                    } else {
+                    }
+                        
+                    else {
                         self.performSegue(withIdentifier: "toNewHouseVC", sender: nil)
                     }
                 }) { (error) in
