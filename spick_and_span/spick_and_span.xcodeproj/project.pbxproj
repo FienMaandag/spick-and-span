@@ -24,6 +24,8 @@
 		214509101EE986340060F79B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2145090F1EE986340060F79B /* GoogleService-Info.plist */; };
 		216555FE1EEEAC8B00C61FC9 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216555FD1EEEAC8B00C61FC9 /* Util.swift */; };
 		219F73601EF2B38C00A82793 /* Rooms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F735F1EF2B38C00A82793 /* Rooms.swift */; };
+		219F73621EF7E9B800A82793 /* Tasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F73611EF7E9B700A82793 /* Tasks.swift */; };
+		219F73641EF803FD00A82793 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F73631EF803FC00A82793 /* History.swift */; };
 		7C7D39E40E93D9BB15CD5E08 /* Pods_spick_and_span.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CB402A4242A5461DD322AD4 /* Pods_spick_and_span.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +49,8 @@
 		2145090F1EE986340060F79B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		216555FD1EEEAC8B00C61FC9 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		219F735F1EF2B38C00A82793 /* Rooms.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rooms.swift; sourceTree = "<group>"; };
+		219F73611EF7E9B700A82793 /* Tasks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tasks.swift; sourceTree = "<group>"; };
+		219F73631EF803FC00A82793 /* History.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
 		240D97BE594DABBF24426A64 /* Pods-spick_and_span.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-spick_and_span.release.xcconfig"; path = "Pods/Target Support Files/Pods-spick_and_span/Pods-spick_and_span.release.xcconfig"; sourceTree = "<group>"; };
 		7CB402A4242A5461DD322AD4 /* Pods_spick_and_span.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_spick_and_span.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB9EB01DBE3AE7051594BD0C /* Pods-spick_and_span.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-spick_and_span.debug.xcconfig"; path = "Pods/Target Support Files/Pods-spick_and_span/Pods-spick_and_span.debug.xcconfig"; sourceTree = "<group>"; };
@@ -101,7 +105,9 @@
 				211F80E61EE80CC0005E1357 /* SecretCodeViewController.swift */,
 				211F80E21EE80C39005E1357 /* HouseViewController.swift */,
 				219F735F1EF2B38C00A82793 /* Rooms.swift */,
+				219F73631EF803FC00A82793 /* History.swift */,
 				211F80EA1EE81245005E1357 /* RoomViewController.swift */,
+				219F73611EF7E9B700A82793 /* Tasks.swift */,
 				211F80EE1EE831EE005E1357 /* ScoreBoardViewController.swift */,
 				211F80F21EE8326E005E1357 /* SettingsViewController.swift */,
 				211F80F01EE83242005E1357 /* HistoryViewController.swift */,
@@ -249,6 +255,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				219F73621EF7E9B800A82793 /* Tasks.swift in Sources */,
 				219F73601EF2B38C00A82793 /* Rooms.swift in Sources */,
 				211F80ED1EE8131B005E1357 /* TaskTableViewCell.swift in Sources */,
 				211F80E91EE80F80005E1357 /* RoomTableViewCell.swift in Sources */,
@@ -257,6 +264,7 @@
 				211F80F11EE83242005E1357 /* HistoryViewController.swift in Sources */,
 				211F80EB1EE81245005E1357 /* RoomViewController.swift in Sources */,
 				211F80D31EE75713005E1357 /* LoginViewController.swift in Sources */,
+				219F73641EF803FD00A82793 /* History.swift in Sources */,
 				216555FE1EEEAC8B00C61FC9 /* Util.swift in Sources */,
 				211F80E31EE80C39005E1357 /* HouseViewController.swift in Sources */,
 				211F80E71EE80CC0005E1357 /* SecretCodeViewController.swift in Sources */,

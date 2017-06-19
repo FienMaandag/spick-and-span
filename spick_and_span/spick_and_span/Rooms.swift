@@ -13,14 +13,16 @@ struct Rooms {
     
     let key: String
     let ref: DatabaseReference?
+    let nameRoom: String
     let addedByUser: String
-    let priority: String
+    let priorityRoom: String
     
-    init(addedByUser: String, key: String = "", priority: String = "") {
+    init(addedByUser: String, key: String = "", priorityRoom: String, nameRoom: String) {
         self.key = key
         self.ref = nil
         self.addedByUser = addedByUser
-        self.priority = priority
+        self.priorityRoom = priorityRoom
+        self.nameRoom = nameRoom
     }
     
     init(snapshot: DataSnapshot) {
@@ -28,13 +30,15 @@ struct Rooms {
         ref = snapshot.ref
         let snapshotValue = snapshot.value as! [String: AnyObject]
         addedByUser = snapshotValue["addedByUser"] as! String
-        priority = snapshotValue["priority"] as? String ?? ""
+        priorityRoom = snapshotValue["priorityRoom"] as! String
+        nameRoom = snapshotValue["nameRoom"] as! String
     }
     
     func toAnyObject() -> Any {
         return [
+            "nameRoom": nameRoom,
             "addedByUser": addedByUser,
-            "priority": priority,
+            "priorityRoom": priorityRoom
         ]
     }
     

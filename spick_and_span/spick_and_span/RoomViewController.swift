@@ -13,10 +13,13 @@ import Firebase
 class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet var tableView: UITableView!
-    var tasks = ["Vacuum", "Dust"]
-    let ref = Database.database().reference()
+    
     var houseKey = String()
     var roomName = String()
+    var newTotalPoints = Int()
+    
+    var tasks :[Tasks] = []
+    let ref = Database.database().reference()
     let currentUser = Auth.auth().currentUser
     
     override func viewDidLoad() {
@@ -28,6 +31,8 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let value = snapshot.value as? NSDictionary
             self.houseKey = value?["houseKey"] as? String ?? ""
             
+            self.loadTasks()
+            
         }) { (error) in
             print(error.localizedDescription)
         }
@@ -38,16 +43,34 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
         // Dispose of any resources that can be recreated.
     }
     
+    func loadTasks(){
+        
+        let searchRef = ref.child("houses/\(self.houseKey)/rooms/\(roomName)/tasks")
+        
+        searchRef.observe(.value, with: { snapshot in
+            var newTasks: [Tasks] = []
+            
+            for item in snapshot.children {
+                let task = Tasks(snapshot: item as! DataSnapshot)
+                newTasks.append(task)
+            }
+            
+            self.tasks = newTasks
+            self.tableView.reloadData()
+        })
+
+    }
+    
     // Set amount rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.tasks.count
+        return tasks.count
     }
     
     // Fill cells of tableview with tasks
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell 	{
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "TasksCell", for: indexPath as IndexPath) as! TaskTableViewCell
         
-        cell.taskNameLabel.text = tasks[indexPath.row].uppercased()
+        cell.taskNameLabel.text = tasks[indexPath.row].taskName.uppercased()
         return cell
     }
     
@@ -57,23 +80,56 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
         let done = UITableViewRowAction(style: .normal, title: "Done") { action, index in
-            // update firebase history
+
             let indexPath = editActionsForRowAt
-            let selectedTask = self.tasks[indexPath.row]
-            
-            DateFormatter().dateFormat = "yyyyMMdd"
-            let today = DateFormatter().string(from: Date())
-            
+            let selectedTask = self.tasks[indexPath.row].taskName
+
+            let date = NSDate();
+            let formatter = DateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss";
+            let today = formatter.string(from: date as Date);
+
+            // update history
             let historyRef = self.ref.child("houses/\(self.houseKey)/history/\(today)")
 
-            historyRef.setValue([
-                "doneBy": self.currentUser?.email,
-                "task": selectedTask,
-                "time": today
-                ])
+            let newHistory = History(
+                                doneBy: (self.currentUser?.email)!!,
+                                task: selectedTask,
+                                time: today)
+            
+            historyRef.setValue(newHistory.toAnyObject())
             
             // update firebase total points
+            let userRef = self.ref.child("houses/\(self.houseKey)/users/\(self.currentUser?.uid)")
+            let pointsRef = self.ref.child("houses/\(self.houseKey)/rooms/\(self.roomName)/tasks/\(selectedTask)")
+            
+            pointsRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                let value = snapshot.value as? NSDictionary
+                
+                let taskPoints = value?["taskPoints"] as? Int
+                
+                self.newTotalPoints = taskPoints!
+            }) { (error) in
+                print(error.localizedDescription)
+            }
+            
+            userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                // Get user value
+                let value = snapshot.value as? NSDictionary
+                let totalPoints = value?["totalPoints"] as? Int ??
+                
+                let points = self.newTotalPoints as! Int
+                self.newTotalPoints = points + totalPoints
+            }) { (error) in
+                print(error.localizedDescription)
+            }
+
+            print(self.newTotalPoints)
+            
             // update priority level task
+            let taskRef = self.ref.child("houses/\(self.houseKey)/rooms/\(self.roomName)/tasks/\(selectedTask)/taskDone")
+            
+            taskRef.setValue(today)
         }
         done.backgroundColor = .lightGray
         
@@ -92,19 +148,20 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let taskFrequencyField = alert.textFields![1]
             let taskPointsField = alert.textFields![2]
             
-            let taskName = taskNameField.text
+            let taskName = taskNameField.text! 
             let taskFrequency = taskFrequencyField.text
             let taskPoints = taskPointsField.text
             
             let roomRef = self.ref.child("houses/\(self.houseKey)/rooms/\(self.roomName)/tasks/\(String(describing: taskName))")
             
-            roomRef.setValue([
-                "taskName": taskName,
-                "taskFrequency": taskFrequency,
-                "taskPoints": taskPoints,
-                "taskDone": "",
-                "taskPriority": ""
-                ])
+            // add room to firebase
+            let newTask = Tasks(taskDone: "",
+                                taskFrequency: taskFrequency!,
+                                taskName: taskName,
+                                taskPoints: taskPoints!,
+                                taskPriority: "")
+                
+            roomRef.setValue(newTask.toAnyObject())
         }
         
         // Closes alert

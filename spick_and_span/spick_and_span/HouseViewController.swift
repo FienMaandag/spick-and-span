@@ -16,8 +16,7 @@ class HouseViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var houseName = String()
     var houseKey = String()
     
-//    var rooms: [Rooms] = []
-    var rooms = ["Living Room", "Bath Room"]
+    var rooms: [Rooms] = []
     let ref = Database.database().reference()
     let currentUser = Auth.auth().currentUser
     
@@ -43,79 +42,32 @@ class HouseViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func loadRooms(){
-        
-//        let searchRef = ref.child("houses/\(self.houseKey)/rooms)")
-        
-        // View plants from current user
-//        searchRef.observe(.value, with: { snapshot in
-//            print("1")
-//            var newRooms: [Rooms] = []
-//            let enumerator = snapshot.children
-//            
-//            while let rest = enumerator.nextObject() as? DataSnapshot {
-//                print("2")
-//                let room = rest.value
-//                print(room!)
-//                newRooms.append(room as! Rooms)
-//                print(newRooms)
-//            }
-//            self.rooms = newRooms
-//            self.tableView.reloadData()
-//        }) { (error) in
-//            print("Failed to get snapshot", error.localizedDescription)
-//        }
-//        
+
         let searchRef = ref.child("houses/\(self.houseKey)/rooms")
-        print(self.houseKey)
-        print(searchRef)
-        
-        
+
         searchRef.observe(.value, with: { snapshot in
-            print(snapshot.childrenCount) // I got the expected number of items
-            
             var newRooms: [Rooms] = []
             
-            let enumerator = snapshot.children
+            for item in snapshot.children {
+                let room = Rooms(snapshot: item as! DataSnapshot)
+                newRooms.append(room)
+            }
             
-//            while let rest = enumerator.nextObject() as? DataSnapshot {
-//                let room = rest.value
-//                print(room)
-//                newRooms.append(room as! Rooms)
-//                print(rest.value)
-//            }
-//            self.rooms = newRooms
+            self.rooms = newRooms
+            self.tableView.reloadData()
         })
-        
-//        // View plants from current user
-//        searchRef.observe(.value, with: { snapshot in
-//            let values = snapshot.children.allObjects
-//            print(values)
-//            var newRooms = [String]()
-//            
-//            for value in values {
-//                let room = value
-//                print(room)
-//                newRooms.append(room as! String)
-//            }
-//            
-//            self.rooms = newRooms
-//            self.tableView.reloadData()
-//            
-//        }) { (error) in
-//            print("Failed to get snapshot", error.localizedDescription)
-//        }
     }
     
     // Set amount rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.rooms.count
+        return rooms.count
     }
     
     // Fill cells of tableview with rooms
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell 	{
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "RoomsCell", for: indexPath as IndexPath) as! RoomTableViewCell
         
-        cell.roomNameLabel.text = rooms[indexPath.row].uppercased()
+        cell.roomNameLabel.text = rooms[indexPath.row].nameRoom.uppercased()
         return cell
     }
     
@@ -131,13 +83,14 @@ class HouseViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let text = roomNameField.text
             
             // add room to firebase
-            
+            let newRoom = Rooms(addedByUser: (self.currentUser?.uid)!,
+                                priorityRoom: "0",
+                                nameRoom: text!)
+            // 3
             let houseRef = self.ref.child("houses/\(self.houseKey)/rooms/\(text!)")
             
-            houseRef.setValue([
-                "addedByUser": self.currentUser?.uid,
-                "priority": "0"
-                ])
+            // 4
+            houseRef.setValue(newRoom.toAnyObject())
         }
         
         // Closes alert
@@ -157,7 +110,7 @@ class HouseViewController: UIViewController, UITableViewDelegate, UITableViewDat
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let roomVC = segue.destination as? RoomViewController{
             if let path = tableView.indexPathForSelectedRow{
-                roomVC.roomName = self.rooms[path.row]
+                roomVC.roomName = self.rooms[path.row].nameRoom
             }
             
         }
