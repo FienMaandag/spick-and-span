@@ -7,18 +7,68 @@
 //
 
 import UIKit
+import Firebase
 
-class ScoreBoardViewController: UIViewController {
+class ScoreBoardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    @IBOutlet weak var tableView: UITableView!
+    
+    var houseKey = String()
+    var users: [Users] = []
+    
+    let ref = Database.database().reference()
+    let currentUser = Auth.auth().currentUser
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        ref.child("users").child((currentUser?.uid)!).observeSingleEvent(of: .value, with: { (snapshot) in
+            let value = snapshot.value as? NSDictionary
+            self.houseKey = value?["houseKey"] as? String ?? ""
+            
+            self.loadUsers()
+            
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+
+    // Set amount rows
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return users.count
+    }
+    
+    // Fill cells of tableview with tasks
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell 	{
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: "scoreCell", for: indexPath as IndexPath) as! HighScoreTableViewCell
+        
+        cell.userLabel.text = users[indexPath.row].userEmail
+        cell.pointsLabel.text = users[indexPath.row].totalPoints
+        return cell
+    }
+    
+    func loadUsers(){
+        
+        let searchRef = ref.child("houses/\(self.houseKey)/users")
+        
+        searchRef.observe(.value, with: { snapshot in
+            var newUsers: [Users] = []
+            
+            for item in snapshot.children {
+                let user = Users(snapshot: item as! DataSnapshot)
+                newUsers.append(user)
+            }
+            
+            self.users = newUsers
+            self.tableView.reloadData()
+        })
+        
     }
 
 }

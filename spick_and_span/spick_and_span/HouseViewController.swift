@@ -41,23 +41,6 @@ class HouseViewController: UIViewController, UITableViewDelegate, UITableViewDat
         super.didReceiveMemoryWarning()
     }
     
-    func loadRooms(){
-
-        let searchRef = ref.child("houses/\(self.houseKey)/rooms")
-
-        searchRef.observe(.value, with: { snapshot in
-            var newRooms: [Rooms] = []
-            
-            for item in snapshot.children {
-                let room = Rooms(snapshot: item as! DataSnapshot)
-                newRooms.append(room)
-            }
-            
-            self.rooms = newRooms
-            self.tableView.reloadData()
-        })
-    }
-    
     // Set amount rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return rooms.count
@@ -71,6 +54,23 @@ class HouseViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return cell
     }
     
+    func loadRooms(){
+        
+        let searchRef = ref.child("houses/\(self.houseKey)/rooms")
+        
+        searchRef.observe(.value, with: { snapshot in
+            var newRooms: [Rooms] = []
+            
+            for item in snapshot.children {
+                let room = Rooms(snapshot: item as! DataSnapshot)
+                newRooms.append(room)
+            }
+            
+            self.rooms = newRooms
+            self.tableView.reloadData()
+        })
+    }
+    
     @IBAction func addRoomButtonClicked(_ sender: UIBarButtonItem) {
 
         let alert = UIAlertController(title: "New Room",
@@ -80,7 +80,7 @@ class HouseViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // Save room for house
         let saveAction = UIAlertAction(title: "Save", style: .default) { action in
             let roomNameField = alert.textFields![0]
-            let text = roomNameField.text
+            let text = roomNameField.text?.capitalized
             
             // add room to firebase
             let newRoom = Rooms(addedByUser: (self.currentUser?.uid)!,

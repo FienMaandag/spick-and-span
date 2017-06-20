@@ -32,7 +32,7 @@ struct History {
     func toAnyObject() -> Any {
         return [
             "doneBy": doneBy,
-            "taks": task,
+            "task": task,
             "time": time
         ]
     }

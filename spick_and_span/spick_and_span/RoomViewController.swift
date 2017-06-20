@@ -16,7 +16,8 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     var houseKey = String()
     var roomName = String()
-    var newTotalPoints = Int()
+    var priorityLevel = Int()
+    var totalPoints = Int()
     
     var tasks :[Tasks] = []
     let ref = Database.database().reference()
@@ -43,6 +44,52 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
         // Dispose of any resources that can be recreated.
     }
     
+    // Set amount rows
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tasks.count
+    }
+    
+    // Fill cells of tableview with tasks
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell 	{
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: "TasksCell", for: indexPath as IndexPath) as! TaskTableViewCell
+        
+        if tasks[indexPath.row].taskDone != ""{
+            let lastDone = tasks[indexPath.row].taskDone
+            let lastDoneDouble = TimeInterval(lastDone)
+            let lastDoneDate = Date(timeIntervalSince1970: lastDoneDouble!)
+
+            let currentData = Date()
+            let sinceDone = DateInterval(start: lastDoneDate, end: currentData).duration
+            
+            let priority = (Int(sinceDone) / Int(tasks[indexPath.row].taskFrequency)!) * 100
+
+            self.priorityLevel = Int(priority)
+        } else {
+            self.priorityLevel = 100
+        }
+        
+        if 0 ... 25 ~= self.priorityLevel{
+            cell.priorityTaskLabel.text = "LOW"
+            cell.priorityTaskLabel.textColor = UIColor.green
+        }
+        else if 25 ... 75 ~= self.priorityLevel{
+            cell.priorityTaskLabel.text = "MEDIUM"
+            cell.priorityTaskLabel.textColor = UIColor.orange
+        }
+        else if 75 ... 100 ~= self.priorityLevel{
+            cell.priorityTaskLabel.text = "HIGH"
+            cell.priorityTaskLabel.textColor = UIColor.red
+        }
+        else {
+            cell.priorityTaskLabel.text = "NOW"
+            cell.priorityTaskLabel.textColor = UIColor.red
+        }
+        print(priorityLevel)
+        cell.taskNameLabel.text = tasks[indexPath.row].taskName.uppercased()
+
+        return cell
+    }
+    
     func loadTasks(){
         
         let searchRef = ref.child("houses/\(self.houseKey)/rooms/\(roomName)/tasks")
@@ -58,22 +105,10 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
             self.tasks = newTasks
             self.tableView.reloadData()
         })
-
-    }
-    
-    // Set amount rows
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tasks.count
-    }
-    
-    // Fill cells of tableview with tasks
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell 	{
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: "TasksCell", for: indexPath as IndexPath) as! TaskTableViewCell
         
-        cell.taskNameLabel.text = tasks[indexPath.row].taskName.uppercased()
-        return cell
     }
     
+    // done button
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -83,53 +118,50 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
             let indexPath = editActionsForRowAt
             let selectedTask = self.tasks[indexPath.row].taskName
+            let taskPoints = self.tasks[indexPath.row].taskPoints
+            let userID = self.currentUser?.uid
+            let userEmail = self.currentUser?.email
 
-            let date = NSDate();
-            let formatter = DateFormatter();
-            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss";
-            let today = formatter.string(from: date as Date);
-
-            // update history
-            let historyRef = self.ref.child("houses/\(self.houseKey)/history/\(today)")
+            // Save current data as string
+            let date = Date()
+            let today = date.timeIntervalSince1970
+            let stringToday = String(today)
+        
+            // Name for child
+            var todayChild = stringToday.components(separatedBy: ".")
+            
+            // Update history
+            let historyRef = self.ref.child("houses/\(self.houseKey)/history/\(todayChild[0])")
 
             let newHistory = History(
-                                doneBy: (self.currentUser?.email)!!,
+                                doneBy: userEmail!,
                                 task: selectedTask,
-                                time: today)
+                                time: stringToday)
             
             historyRef.setValue(newHistory.toAnyObject())
             
-            // update firebase total points
-            let userRef = self.ref.child("houses/\(self.houseKey)/users/\(self.currentUser?.uid)")
-            let pointsRef = self.ref.child("houses/\(self.houseKey)/rooms/\(self.roomName)/tasks/\(selectedTask)")
-            
-            pointsRef.observeSingleEvent(of: .value, with: { (snapshot) in
-                let value = snapshot.value as? NSDictionary
-                
-                let taskPoints = value?["taskPoints"] as? Int
-                
-                self.newTotalPoints = taskPoints!
-            }) { (error) in
-                print(error.localizedDescription)
-            }
-            
-            userRef.observeSingleEvent(of: .value, with: { (snapshot) in
-                // Get user value
-                let value = snapshot.value as? NSDictionary
-                let totalPoints = value?["totalPoints"] as? Int ??
-                
-                let points = self.newTotalPoints as! Int
-                self.newTotalPoints = points + totalPoints
-            }) { (error) in
-                print(error.localizedDescription)
-            }
-
-            print(self.newTotalPoints)
-            
-            // update priority level task
+            // Update priority task done
             let taskRef = self.ref.child("houses/\(self.houseKey)/rooms/\(self.roomName)/tasks/\(selectedTask)/taskDone")
             
-            taskRef.setValue(today)
+            taskRef.setValue(stringToday)
+            
+            // Update total points
+            let usersRef = self.ref.child("houses/\(self.houseKey)/users")
+            
+            usersRef.child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
+                let value = snapshot.value as? NSDictionary
+                let points = value?["totalPoints"] as? String ?? ""
+                
+                self.totalPoints = Int(points)!
+                
+                let newTotal = Int(taskPoints)! + self.totalPoints
+                
+                let stringNewTotal = String(newTotal)
+                
+                usersRef.child("\(userID!)/totalPoints").setValue(stringNewTotal)
+            }) { (error) in
+                print(error.localizedDescription)
+            }
         }
         done.backgroundColor = .lightGray
         
@@ -148,15 +180,15 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let taskFrequencyField = alert.textFields![1]
             let taskPointsField = alert.textFields![2]
             
-            let taskName = taskNameField.text! 
-            let taskFrequency = taskFrequencyField.text
+            let taskName = taskNameField.text!.capitalized
+            let taskFrequency = Int(taskFrequencyField.text!)! * 86400
             let taskPoints = taskPointsField.text
             
             let roomRef = self.ref.child("houses/\(self.houseKey)/rooms/\(self.roomName)/tasks/\(String(describing: taskName))")
             
             // add room to firebase
             let newTask = Tasks(taskDone: "",
-                                taskFrequency: taskFrequency!,
+                                taskFrequency: String(taskFrequency),
                                 taskName: taskName,
                                 taskPoints: taskPoints!,
                                 taskPriority: "")
