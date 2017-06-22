@@ -48,8 +48,11 @@ class ScoreBoardViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell 	{
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "scoreCell", for: indexPath as IndexPath) as! HighScoreTableViewCell
         
+        let userEmail = users[indexPath.row].userEmail
+        var user = userEmail.components(separatedBy: "@")
+        
         cell.userLabel.text = users[indexPath.row].userEmail
-        cell.pointsLabel.text = users[indexPath.row].totalPoints
+        cell.pointsLabel.text = user[0]
         return cell
     }
     

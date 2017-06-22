@@ -31,7 +31,8 @@ class SettingsViewController: UIViewController {
         ref.child("users").child(currentUser!).observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
             self.houseKey = value?["houseKey"] as? String ?? ""
-            self.secretCodeLabel.text = self.houseKey
+            self.secretCodeLabel.text = value?["houseKey"] as? String ?? ""
+            
         }) { (error) in
             print(error.localizedDescription)
         }
