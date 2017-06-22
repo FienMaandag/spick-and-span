@@ -24,6 +24,11 @@ class LoginViewController: UIViewController {
         loginButton.layer.borderColor = UIColor.white.cgColor
         
         self.hideKeyboardWhenTappedAround()
+        
+//        Auth.auth().addStateDidChangeListener { (auth, user) in
+//            if user !=
+//            <#code#>
+//        }
     }
 
     override func didReceiveMemoryWarning() {

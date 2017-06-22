@@ -11,10 +11,10 @@ import Firebase
 
 struct Users {
     
-    let totalPoints: String
+    let totalPoints: Int
     let userEmail: String
     
-    init(totalPoints: String, userEmail: String) {
+    init(totalPoints: Int, userEmail: String) {
         self.totalPoints = totalPoints
         self.userEmail = userEmail
     }
@@ -22,7 +22,7 @@ struct Users {
     init(snapshot: DataSnapshot) {
         let snapshotValue = snapshot.value as! [String: AnyObject]
         
-        totalPoints = snapshotValue["totalPoints"] as! String
+        totalPoints = snapshotValue["totalPoints"] as! Int
         userEmail = snapshotValue["userEmail"] as! String
     }
 }

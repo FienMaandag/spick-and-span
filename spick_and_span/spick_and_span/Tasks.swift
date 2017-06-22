@@ -12,12 +12,12 @@ import Firebase
 struct Tasks {
     
     let taskDone: String
-    let taskFrequency: String
+    let taskFrequency: Int
     let taskName: String
-    let taskPoints: String
+    let taskPoints: Int
     let taskPriority: String
     
-    init(taskDone: String, taskFrequency: String, taskName: String, taskPoints: String, taskPriority: String) {
+    init(taskDone: String, taskFrequency: Int, taskName: String, taskPoints: Int, taskPriority: String) {
         self.taskDone = taskDone
         self.taskFrequency = taskFrequency
         self.taskName = taskName
@@ -30,9 +30,9 @@ struct Tasks {
         let snapshotValue = snapshot.value as! [String: AnyObject]
 
         taskDone = snapshotValue["taskDone"] as! String
-        taskFrequency = snapshotValue["taskFrequency"] as! String
+        taskFrequency = snapshotValue["taskFrequency"] as! Int
         taskName = snapshotValue["taskName"] as! String
-        taskPoints = snapshotValue["taskPoints"] as! String
+        taskPoints = snapshotValue["taskPoints"] as! Int
         taskPriority = snapshotValue["taskPriority"] as! String
     }
     

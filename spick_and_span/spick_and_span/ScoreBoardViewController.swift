@@ -51,14 +51,14 @@ class ScoreBoardViewController: UIViewController, UITableViewDelegate, UITableVi
         let userEmail = users[indexPath.row].userEmail
         var user = userEmail.components(separatedBy: "@")
         
-        cell.userLabel.text = users[indexPath.row].userEmail
-        cell.pointsLabel.text = user[0]
+        cell.userLabel.text = user[0]
+        cell.pointsLabel.text = String(users[indexPath.row].totalPoints)
         return cell
     }
     
     func loadUsers(){
         
-        let searchRef = ref.child("houses/\(self.houseKey)/users")
+        let searchRef = ref.child("houses/\(self.houseKey)/users").queryOrdered(byChild: "totalPoints")
         
         searchRef.observe(.value, with: { snapshot in
             var newUsers: [Users] = []
@@ -68,7 +68,7 @@ class ScoreBoardViewController: UIViewController, UITableViewDelegate, UITableVi
                 newUsers.append(user)
             }
             
-            self.users = newUsers
+            self.users = newUsers.reversed()
             self.tableView.reloadData()
         })
         

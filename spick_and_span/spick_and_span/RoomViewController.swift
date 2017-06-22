@@ -17,10 +17,9 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var houseKey = String()
     var roomName = String()
     var priorityLevel = Int()
-    var totalPoints = Int()
     
     var tasks :[Tasks] = []
-    let ref = Database.database().reference()
+    var ref = Database.database().reference()
     let currentUser = Auth.auth().currentUser
     
     override func viewDidLoad() {
@@ -31,6 +30,8 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
         ref.child("users").child((currentUser?.uid)!).observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
             self.houseKey = value?["houseKey"] as? String ?? ""
+            
+            self.ref = Database.database().reference().child("houses/\(self.houseKey)")
             
             self.loadTasks()
             
@@ -48,6 +49,7 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tasks.count
     }
+
     
     // Fill cells of tableview with tasks
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell 	{
@@ -63,7 +65,7 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let sinceDone = DateInterval(start: lastDoneDate, end: currentData).duration
             let frequency = tasks[indexPath.row].taskFrequency
             
-            let priority = (Float(sinceDone) / Float(frequency)!) * 100
+            let priority = (Float(sinceDone) / Float(frequency)) * 100
             self.priorityLevel = Int(priority)
         } else {
             self.priorityLevel = 100
@@ -93,7 +95,7 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func loadTasks(){
         
-        let searchRef = ref.child("houses/\(self.houseKey)/rooms/\(roomName)/tasks")
+        let searchRef = ref.child("rooms/\(roomName)/tasks")
         
         searchRef.observe(.value, with: { snapshot in
             var newTasks: [Tasks] = []
@@ -132,53 +134,40 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
             var todayChild = stringToday.components(separatedBy: ".")
             
             // Update history
-            let historyRef = self.ref.child("houses/\(self.houseKey)/history/\(todayChild[0])")
-
+            let historyRef = self.ref.child("history/\(todayChild[0])")
             let newHistory = History(
                                 doneBy: userEmail!,
                                 task: selectedTask,
                                 time: stringToday)
-            
             historyRef.setValue(newHistory.toAnyObject())
             
             // Update priority task done
-            let taskRef = self.ref.child("houses/\(self.houseKey)/rooms/\(self.roomName)/tasks/\(selectedTask)/taskDone")
-            
+            let taskRef = self.ref.child("rooms/\(self.roomName)/tasks/\(selectedTask)/taskDone")
             taskRef.setValue(stringToday)
             
             // Update total points
-            let usersRef = self.ref.child("houses/\(self.houseKey)/users")
-            
+            let usersRef = self.ref.child("users")
             usersRef.child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
                 let value = snapshot.value as? NSDictionary
-                let points = value?["totalPoints"] as? String ?? ""
+                let points = value?["totalPoints"] as? Int ?? 0
                 
-                self.totalPoints = Int(points)!
-                
-                let newTotal = Int(taskPoints)! + self.totalPoints
-                
-                let stringNewTotal = String(newTotal)
-                
-                usersRef.child("\(userID!)/totalPoints").setValue(stringNewTotal)
+                let newTotal = taskPoints + points
+                usersRef.child("\(userID!)/totalPoints").setValue(newTotal)
             }) { (error) in
                 print(error.localizedDescription)
             }
             
             // Congratulate user with points
-            
             let alert = UIAlertController(title: "Points",
                                           message: "You have earned \(taskPoints) new points!",
                                           preferredStyle: .alert)
-            
             // Closes alert
             let okAction = UIAlertAction(title: "Jeeeh!",
                                          style: .default)
-            
             alert.addAction(okAction)
-            
             self.present(alert, animated: true, completion: nil)
         }
-        done.backgroundColor = .lightGray
+        done.backgroundColor = .green
         
         return [done]
     }
@@ -197,13 +186,13 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
             
             let taskName = taskNameField.text!.capitalized
             let taskFrequency = Int(taskFrequencyField.text!)! * 86400
-            let taskPoints = taskPointsField.text
+            let taskPoints = Int(taskPointsField.text!)
             
-            let roomRef = self.ref.child("houses/\(self.houseKey)/rooms/\(self.roomName)/tasks/\(String(describing: taskName))")
+            let roomRef = self.ref.child("rooms/\(self.roomName)/tasks/\(String(describing: taskName))")
             
             // add room to firebase
             let newTask = Tasks(taskDone: "",
-                                taskFrequency: String(taskFrequency),
+                                taskFrequency: taskFrequency,
                                 taskName: taskName,
                                 taskPoints: taskPoints!,
                                 taskPriority: "")

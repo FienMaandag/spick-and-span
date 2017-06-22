@@ -66,11 +66,32 @@ class HistoryViewController: UIViewController, UITableViewDataSource, UITableVie
                 newHistory.append(activity)
             }
             
-            self.history = newHistory
+            self.history = newHistory.reversed()
             self.tableView.reloadData()
         })
         
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = self.tableView.cellForRow(at: indexPath) as! HistoryTableViewCell
+        
+        let doneBy = history[indexPath.row].doneBy
+        var doneByUser = doneBy.components(separatedBy: "@")
+        
+        if cell.userLabel.text == doneByUser[0] {
+            let time = history[indexPath.row].time
+            let timeDouble = TimeInterval(time)
+            let dateFull = Date(timeIntervalSince1970: timeDouble!)
+            
+            var date = String(describing: dateFull).components(separatedBy: " ")
+            
+            cell.userLabel.text = date[0]
+        } else {
+            cell.userLabel.text = doneByUser[0]
+        }
+
+    }
+
 
 
 
