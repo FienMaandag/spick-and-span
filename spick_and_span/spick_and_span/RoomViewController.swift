@@ -56,13 +56,14 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if tasks[indexPath.row].taskDone != ""{
             let lastDone = tasks[indexPath.row].taskDone
             let lastDoneDouble = TimeInterval(lastDone)
-            let lastDoneDate = Date(timeIntervalSince1970: lastDoneDouble!)
-
-            let currentData = Date()
-            let sinceDone = DateInterval(start: lastDoneDate, end: currentData).duration
             
-            let priority = (Int(sinceDone) / Int(tasks[indexPath.row].taskFrequency)!) * 100
-
+            let lastDoneDate = Date(timeIntervalSince1970: lastDoneDouble!)
+            let currentData = Date()
+            
+            let sinceDone = DateInterval(start: lastDoneDate, end: currentData).duration
+            let frequency = tasks[indexPath.row].taskFrequency
+            
+            let priority = (Float(sinceDone) / Float(frequency)!) * 100
             self.priorityLevel = Int(priority)
         } else {
             self.priorityLevel = 100
@@ -84,7 +85,7 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
             cell.priorityTaskLabel.text = "NOW"
             cell.priorityTaskLabel.textColor = UIColor.red
         }
-        print(priorityLevel)
+        
         cell.taskNameLabel.text = tasks[indexPath.row].taskName.uppercased()
 
         return cell
@@ -162,6 +163,20 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }) { (error) in
                 print(error.localizedDescription)
             }
+            
+            // Congratulate user with points
+            
+            let alert = UIAlertController(title: "Points",
+                                          message: "You have earned \(taskPoints) new points!",
+                                          preferredStyle: .alert)
+            
+            // Closes alert
+            let okAction = UIAlertAction(title: "Jeeeh!",
+                                         style: .default)
+            
+            alert.addAction(okAction)
+            
+            self.present(alert, animated: true, completion: nil)
         }
         done.backgroundColor = .lightGray
         

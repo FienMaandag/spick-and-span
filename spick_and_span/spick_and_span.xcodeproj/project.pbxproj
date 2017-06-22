@@ -121,11 +121,11 @@
 		21FDD48C1EF9735100DB5A53 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				211F80EA1EE81245005E1357 /* RoomViewController.swift */,
 				211F80D21EE75713005E1357 /* LoginViewController.swift */,
 				211F80E41EE80C8D005E1357 /* NewHouseViewController.swift */,
 				211F80E61EE80CC0005E1357 /* SecretCodeViewController.swift */,
 				211F80E21EE80C39005E1357 /* HouseViewController.swift */,
+				211F80EA1EE81245005E1357 /* RoomViewController.swift */,
 				211F80EE1EE831EE005E1357 /* ScoreBoardViewController.swift */,
 				211F80F21EE8326E005E1357 /* SettingsViewController.swift */,
 				211F80F01EE83242005E1357 /* HistoryViewController.swift */,

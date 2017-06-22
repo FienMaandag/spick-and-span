@@ -8,13 +8,13 @@
 
 import UIKit
 import Firebase
+import MessageUI
 
-class SecretCodeViewController: UIViewController {
+class SecretCodeViewController: UIViewController, MFMailComposeViewControllerDelegate {
     
     @IBOutlet weak var houseNameLabel: UILabel!
     @IBOutlet weak var houseKeyLabel: UILabel!
     @IBOutlet weak var toHouseButton: UIButton!
-    @IBOutlet weak var houseKeyField: UITextField!
     
     let userID = Auth.auth().currentUser?.uid
     let ref = Database.database().reference()
@@ -34,7 +34,6 @@ class SecretCodeViewController: UIViewController {
             
             self.houseNameLabel.text = houseName.uppercased()
             self.houseKeyLabel.text = houseKey
-            self.houseKeyField.text = houseKey
 
         }) { (error) in
             print(error.localizedDescription)
@@ -44,5 +43,25 @@ class SecretCodeViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    @IBAction func sendMailButtonClicked(_ sender: Any) {
+        sendEmail()
+    }
+    
+    func sendEmail() {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setMessageBody("<p>Heey you, join <b>\(houseNameLabel.text!)</b> by copying this secret code: <b>\(houseKeyLabel.text!)</b> and add it in the SPICK-and-SPAN app</p>", isHTML: true)
+            
+            present(mail, animated: true)
+        } else {
+            // show failure alert
+        }
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
     }
 }

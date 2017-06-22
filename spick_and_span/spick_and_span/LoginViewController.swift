@@ -56,7 +56,23 @@ class LoginViewController: UIViewController {
                     print(error.localizedDescription)
                 }
             }
-            // TODO add else error statement not able to sign in
+            else{
+                
+                let alert = UIAlertController(title: "Login Problems",
+                                              message: "This combination of username and password is not recognized",
+                                              preferredStyle: .alert)
+                
+                // Closes alert
+                let okAction = UIAlertAction(title: "OK!",
+                                             style: .default) { action in
+                    self.userEmailInput.text = ""
+                    self.userPasswordInput.text = ""
+                }
+                
+                alert.addAction(okAction)
+                
+                self.present(alert, animated: true, completion: nil)
+            }
         }
     }
 
@@ -68,10 +84,18 @@ class LoginViewController: UIViewController {
         let registerAction = UIAlertAction(title: "Register", style: .default) { action in
             let emailField = alert.textFields![0]
             let passwordField = alert.textFields![1]
-            
-            // TODO add error catch if no input has been given
+
             let email = emailField.text
             let password = passwordField.text
+            
+            // if email and or password is nil
+//            let alert = UIAlertController(title: "Register Problems",
+//                                          message: "Please enter an email adress and password ",
+//                                          preferredStyle: .alert)
+//            let okAction = UIAlertAction(title: "OK!",
+//                                         style: .default)
+//            alert.addAction(okAction)
+//            self.present(alert, animated: true, completion: nil)
             
             Auth.auth().createUser(withEmail: email!, password: password!) { (user, error) in
                 if error == nil {
@@ -81,6 +105,14 @@ class LoginViewController: UIViewController {
                             self.performSegue(withIdentifier: "toNewHouseVC", sender: nil)
                         }
                     }
+                } else{
+                    let alert = UIAlertController(title: "Register Problems",
+                                                message: "Please enter a valid email adress ",
+                                                preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "OK!",
+                                                style: .default)
+                    alert.addAction(okAction)
+                    self.present(alert, animated: true, completion: nil)
                 }
             }
         }
@@ -90,9 +122,9 @@ class LoginViewController: UIViewController {
                                          style: .default)
         
         alert.addTextField { email in
-            email.placeholder = "Email"
+        email.placeholder = "Email"
         }
-        
+    
         alert.addTextField { password in
             password.placeholder = "Password"
             password.isSecureTextEntry = true
@@ -103,6 +135,5 @@ class LoginViewController: UIViewController {
         
         present(alert, animated: true, completion: nil)
     }
-
 }
 

@@ -13,6 +13,7 @@ class SettingsViewController: UIViewController {
 
     @IBOutlet weak var logOutButton: UIButton!
     @IBOutlet weak var leaveHouseButton: UIButton!
+    @IBOutlet weak var secretCodeLabel: UILabel!
     
     let ref = Database.database().reference()
     let currentUser = Auth.auth().currentUser?.uid
@@ -30,6 +31,7 @@ class SettingsViewController: UIViewController {
         ref.child("users").child(currentUser!).observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
             self.houseKey = value?["houseKey"] as? String ?? ""
+            self.secretCodeLabel.text = self.houseKey
         }) { (error) in
             print(error.localizedDescription)
         }
