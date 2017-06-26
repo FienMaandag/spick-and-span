@@ -25,4 +25,12 @@ struct Users {
         totalPoints = snapshotValue["totalPoints"] as! Int
         userEmail = snapshotValue["userEmail"] as! String
     }
+    
+    func toAnyObject() -> Any {
+        return [
+            "totalPoints": totalPoints,
+            "userEmail": userEmail
+        ]
+    }
+
 }

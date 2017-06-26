@@ -20,5 +20,16 @@ extension UIViewController {
     func dismissKeyboard() {
         view.endEditing(true)
     }
+    
+    func simpleAlert(title: String, message: String, actionTitle: String) {
+        // Congratulate user with points
+        let alert = UIAlertController(title: title,
+                                      message: message,
+                                      preferredStyle: .alert)
+        // Closes alert
+        let action = UIAlertAction(title: actionTitle,
+                                     style: .default)
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
+    }
 }
-

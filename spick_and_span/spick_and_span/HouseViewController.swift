@@ -79,17 +79,18 @@ class HouseViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         // Save room for house
         let saveAction = UIAlertAction(title: "Save", style: .default) { action in
-            let roomNameField = alert.textFields![0]
-            let text = roomNameField.text?.capitalized
+            guard let roomNameField = alert.textFields![0].text, !roomNameField.isEmpty else{
+                self.simpleAlert(title: "No Input", message: "Please enter a room name", actionTitle: "ok")
+                return
+            }
+            let text = roomNameField.capitalized
             
             // add room to firebase
             let newRoom = Rooms(addedByUser: (self.currentUser?.uid)!,
                                 priorityRoom: "0",
-                                nameRoom: text!)
-            // 3
-            let houseRef = self.ref.child("houses/\(self.houseKey)/rooms/\(text!)")
-            
-            // 4
+                                nameRoom: text)
+            let houseRef = self.ref.child("houses/\(self.houseKey)/rooms/\(text)")
+
             houseRef.setValue(newRoom.toAnyObject())
         }
         
@@ -112,8 +113,6 @@ class HouseViewController: UIViewController, UITableViewDelegate, UITableViewDat
             if let path = tableView.indexPathForSelectedRow{
                 roomVC.roomName = self.rooms[path.row].nameRoom
             }
-            
         }
     }
-
 }

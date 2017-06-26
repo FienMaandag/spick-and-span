@@ -8,9 +8,9 @@
 
 import UIKit
 import Firebase
-import MessageUI
+import Social
 
-class SecretCodeViewController: UIViewController, MFMailComposeViewControllerDelegate {
+class SecretCodeViewController: UIViewController {
     
     @IBOutlet weak var houseNameLabel: UILabel!
     @IBOutlet weak var houseKeyLabel: UILabel!
@@ -22,7 +22,6 @@ class SecretCodeViewController: UIViewController, MFMailComposeViewControllerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // TODO add funtion for border settings
         toHouseButton.layer.borderWidth = 1
         toHouseButton.layer.borderColor = UIColor.white.cgColor
         
@@ -46,22 +45,16 @@ class SecretCodeViewController: UIViewController, MFMailComposeViewControllerDel
     }
     
     @IBAction func sendMailButtonClicked(_ sender: Any) {
-        sendEmail()
+        let message = "Join \(String(describing: self.houseNameLabel.text!)) with the housekey: \(String(describing: self.houseKeyLabel.text!)))"
+        
+        let activityViewController : UIActivityViewController = UIActivityViewController(
+            activityItems: [message], applicationActivities: nil)
+        
+        activityViewController.popoverPresentationController?.sourceView = (sender as! UIButton)
+        
+        activityViewController.popoverPresentationController?.sourceRect = CGRect(x: 150, y: 150, width: 0, height: 0)
+        
+        self.present(activityViewController, animated: true, completion: nil)
     }
     
-    func sendEmail() {
-        if MFMailComposeViewController.canSendMail() {
-            let mail = MFMailComposeViewController()
-            mail.mailComposeDelegate = self
-            mail.setMessageBody("<p>Heey you, join <b>\(houseNameLabel.text!)</b> by copying this secret code: <b>\(houseKeyLabel.text!)</b> and add it in the SPICK-and-SPAN app</p>", isHTML: true)
-            
-            present(mail, animated: true)
-        } else {
-            // show failure alert
-        }
-    }
-    
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        controller.dismiss(animated: true)
-    }
 }

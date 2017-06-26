@@ -19,6 +19,7 @@ class SettingsViewController: UIViewController {
     let currentUser = Auth.auth().currentUser?.uid
     
     var houseKey = String()
+    var houseName = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,7 @@ class SettingsViewController: UIViewController {
         ref.child("users").child(currentUser!).observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
             self.houseKey = value?["houseKey"] as? String ?? ""
+            self.houseName = value?["houseName"] as? String ?? ""
             self.secretCodeLabel.text = value?["houseKey"] as? String ?? ""
             
         }) { (error) in
@@ -41,6 +43,18 @@ class SettingsViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    @IBAction func shareButtonClicked(_ sender: UIButton) {
+        let message = "Join \(String(describing: self.houseName)) with the housekey: \(String(describing: self.houseKey)))"
+        
+        let activityViewController : UIActivityViewController = UIActivityViewController(
+            activityItems: [message], applicationActivities: nil)
+        
+        activityViewController.popoverPresentationController?.sourceView = (sender)
+        
+        activityViewController.popoverPresentationController?.sourceRect = CGRect(x: 150, y: 150, width: 0, height: 0)
+        
+        self.present(activityViewController, animated: true, completion: nil)
     }
     
     @IBAction func leaveHouseButtonClicked(_ sender: UIButton) {

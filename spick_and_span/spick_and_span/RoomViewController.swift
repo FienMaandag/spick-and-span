@@ -157,15 +157,7 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 print(error.localizedDescription)
             }
             
-            // Congratulate user with points
-            let alert = UIAlertController(title: "Points",
-                                          message: "You have earned \(taskPoints) new points!",
-                                          preferredStyle: .alert)
-            // Closes alert
-            let okAction = UIAlertAction(title: "Jeeeh!",
-                                         style: .default)
-            alert.addAction(okAction)
-            self.present(alert, animated: true, completion: nil)
+            self.simpleAlert(title: "Points", message: "You've earned \(taskPoints) points!", actionTitle: "Jeeh!")
         }
         done.backgroundColor = .green
         
@@ -180,16 +172,28 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         // Save room for house
         let saveAction = UIAlertAction(title: "Save", style: .default) { action in
-            let taskNameField = alert.textFields![0]
-            let taskFrequencyField = alert.textFields![1]
-            let taskPointsField = alert.textFields![2]
+            guard let taskNameField = alert.textFields![0].text, !taskNameField.isEmpty else{
+                self.simpleAlert(title: "No Input", message: "Please enter a task Name", actionTitle: "ok")
+                return
+            }
             
-            let taskName = taskNameField.text!.capitalized
-            let taskFrequency = Int(taskFrequencyField.text!)! * 86400
-            let taskPoints = Int(taskPointsField.text!)
+            guard let taskFrequencyField = alert.textFields![1].text, !taskFrequencyField.isEmpty else{
+                self.simpleAlert(title: "No Input", message: "Please enter a task frequency", actionTitle: "ok")
+                return
+            }
+
+            guard let taskPointsField = alert.textFields![2].text, !taskPointsField.isEmpty else{
+                self.simpleAlert(title: "No Input", message: "Please enter the task points", actionTitle: "ok")
+                return
+            }
+
+            
+            let taskName = taskNameField.capitalized
+            let taskFrequency = Int(taskFrequencyField)! * 86400
+            let taskPoints = Int(taskPointsField)
             
             let roomRef = self.ref.child("rooms/\(self.roomName)/tasks/\(String(describing: taskName))")
-            
+                
             // add room to firebase
             let newTask = Tasks(taskDone: "",
                                 taskFrequency: taskFrequency,
@@ -210,10 +214,12 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         alert.addTextField { taskFrequency in
             taskFrequency.placeholder = "Task Frequency"
+            taskFrequency.keyboardType = .numberPad
         }
         
         alert.addTextField { taskPoints in
             taskPoints.placeholder = "Task Points"
+            taskPoints.keyboardType = .numberPad
         }
         
         alert.addAction(saveAction)

@@ -27,6 +27,7 @@
 		219F73601EF2B38C00A82793 /* Rooms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F735F1EF2B38C00A82793 /* Rooms.swift */; };
 		219F73621EF7E9B800A82793 /* Tasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F73611EF7E9B700A82793 /* Tasks.swift */; };
 		219F73641EF803FD00A82793 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F73631EF803FC00A82793 /* History.swift */; };
+		21A43EE31EFD0F3F0042FB14 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21A43EE21EFD0F3F0042FB14 /* Social.framework */; };
 		21FDD48B1EF9279100DB5A53 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FDD48A1EF9279100DB5A53 /* HistoryTableViewCell.swift */; };
 		21FDD4901EF9740300DB5A53 /* HighScoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FDD48F1EF9740300DB5A53 /* HighScoreTableViewCell.swift */; };
 		21FDD4921EF975C600DB5A53 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FDD4911EF975C600DB5A53 /* Users.swift */; };
@@ -56,6 +57,7 @@
 		219F735F1EF2B38C00A82793 /* Rooms.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rooms.swift; sourceTree = "<group>"; };
 		219F73611EF7E9B700A82793 /* Tasks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tasks.swift; sourceTree = "<group>"; };
 		219F73631EF803FC00A82793 /* History.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
+		21A43EE21EFD0F3F0042FB14 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		21FDD48A1EF9279100DB5A53 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
 		21FDD48F1EF9740300DB5A53 /* HighScoreTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HighScoreTableViewCell.swift; sourceTree = "<group>"; };
 		21FDD4911EF975C600DB5A53 /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21A43EE31EFD0F3F0042FB14 /* Social.framework in Frameworks */,
 				7C7D39E40E93D9BB15CD5E08 /* Pods_spick_and_span.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -161,6 +164,7 @@
 		B18D37AD8866828C1ED6ECDA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				21A43EE21EFD0F3F0042FB14 /* Social.framework */,
 				7CB402A4242A5461DD322AD4 /* Pods_spick_and_span.framework */,
 			);
 			name = Frameworks;

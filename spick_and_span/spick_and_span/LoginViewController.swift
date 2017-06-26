@@ -16,6 +16,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var userPasswordInput: UITextField!
     var houseName = String()
     var houseKey = String()
+    var ref = DatabaseReference()
+    var currentUser: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,10 +27,11 @@ class LoginViewController: UIViewController {
         
         self.hideKeyboardWhenTappedAround()
         
-//        Auth.auth().addStateDidChangeListener { (auth, user) in
-//            if user !=
-//            <#code#>
-//        }
+        if Auth.auth().currentUser != nil {
+            ref = Database.database().reference()
+            currentUser = (Auth.auth().currentUser?.uid)!
+            self.checkHouse()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,27 +45,12 @@ class LoginViewController: UIViewController {
         
         Auth.auth().signIn(withEmail: email!, password: password!) { (user, error) in
             if error == nil {
-                let ref = Database.database().reference()
-                let currentUser = Auth.auth().currentUser
+                self.ref = Database.database().reference()
+                self.currentUser = (Auth.auth().currentUser?.uid)!
                 
-                // check if user is in table users
-                ref.child("users").child((currentUser?.uid)!).observeSingleEvent(of: .value, with: { (snapshot) in
-                    if let value = snapshot.value as? NSDictionary {
-                        self.houseKey = value["houseKey"] as? String ?? ""
-                        self.houseName = value["houseName"] as? String ?? ""
-
-                        self.performSegue(withIdentifier: "toHouseVC", sender: nil)
-                    }
-                        
-                    else {
-                        self.performSegue(withIdentifier: "toNewHouseVC", sender: nil)
-                    }
-                }) { (error) in
-                    print(error.localizedDescription)
-                }
+                self.checkHouse()
             }
             else{
-                
                 let alert = UIAlertController(title: "Login Problems",
                                               message: "This combination of username and password is not recognized",
                                               preferredStyle: .alert)
@@ -78,6 +66,24 @@ class LoginViewController: UIViewController {
                 
                 self.present(alert, animated: true, completion: nil)
             }
+        }
+    }
+    
+    func checkHouse(){
+        // check if user is in table users
+        self.ref.child("users").child(self.currentUser).observeSingleEvent(of: .value, with: { (snapshot) in
+            if let value = snapshot.value as? NSDictionary {
+                self.houseKey = value["houseKey"] as? String ?? ""
+                self.houseName = value["houseName"] as? String ?? ""
+                
+                self.performSegue(withIdentifier: "toHouseVC", sender: nil)
+            }
+                
+            else {
+                self.performSegue(withIdentifier: "toNewHouseVC", sender: nil)
+            }
+        }) { (error) in
+            print(error.localizedDescription)
         }
     }
 
