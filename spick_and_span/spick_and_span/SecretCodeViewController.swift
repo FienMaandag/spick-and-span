@@ -21,9 +21,7 @@ class SecretCodeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        toHouseButton.layer.borderWidth = 1
-        toHouseButton.layer.borderColor = UIColor.white.cgColor
+        whiteBorder(button: toHouseButton)
         
         ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
             // Get user value

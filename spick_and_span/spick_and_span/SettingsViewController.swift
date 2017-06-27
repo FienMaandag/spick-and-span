@@ -23,11 +23,8 @@ class SettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        whiteBorder(button: logOutButton)
 
-        // TODO function borders
-        logOutButton.layer.borderWidth = 1
-        logOutButton.layer.borderColor = UIColor.white.cgColor
-        
         // find current houseKey to remove user from it
         ref.child("users").child(currentUser!).observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary

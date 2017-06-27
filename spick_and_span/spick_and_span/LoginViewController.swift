@@ -14,18 +14,16 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var userEmailInput: UITextField!
     @IBOutlet weak var userPasswordInput: UITextField!
-    var houseName = String()
-    var houseKey = String()
+
     var ref = DatabaseReference()
     var currentUser: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loginButton.layer.borderWidth = 1
-        loginButton.layer.borderColor = UIColor.white.cgColor
+        whiteBorder(button: loginButton)
         
-        self.hideKeyboardWhenTappedAround()
+        hideKeyboardWhenTappedAround()
         
         if Auth.auth().currentUser != nil {
             ref = Database.database().reference()
@@ -39,11 +37,16 @@ class LoginViewController: UIViewController {
     }
 
     @IBAction func loginButtonClicked(_ sender: Any) {
-
-        let email = userEmailInput.text
-        let password = userPasswordInput.text
+        guard let email = userEmailInput.text, !email.isEmpty else {
+            self.simpleAlert(title: "No Input", message: "Please enter an email adress", actionTitle: "Ok")
+            return
+        }
+        guard let password = userPasswordInput.text, !password.isEmpty else {
+            self.simpleAlert(title: "No Input", message: "Please enter a password", actionTitle: "Ok")
+            return
+        }
         
-        Auth.auth().signIn(withEmail: email!, password: password!) { (user, error) in
+        Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
             if error == nil {
                 self.ref = Database.database().reference()
                 self.currentUser = (Auth.auth().currentUser?.uid)!
@@ -62,10 +65,7 @@ class LoginViewController: UIViewController {
     func checkHouse(){
         // check if user is in table users
         self.ref.child("users").child(self.currentUser).observeSingleEvent(of: .value, with: { (snapshot) in
-            if let value = snapshot.value as? NSDictionary {
-                self.houseKey = value["houseKey"] as? String ?? ""
-                self.houseName = value["houseName"] as? String ?? ""
-                
+            if (snapshot.value as? NSDictionary) != nil {
                 self.performSegue(withIdentifier: "toHouseVC", sender: nil)
             } else {
                 self.performSegue(withIdentifier: "toNewHouseVC", sender: nil)

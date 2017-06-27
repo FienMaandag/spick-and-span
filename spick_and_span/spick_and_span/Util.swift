@@ -8,9 +8,12 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 // https://stackoverflow.com/questions/24126678/close-ios-keyboard-by-touching-anywhere-using-swift
+
 extension UIViewController {
+    
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
@@ -32,4 +35,13 @@ extension UIViewController {
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
     }
+    
+    func whiteBorder(button: UIButton){
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.white.cgColor
+    }
+}
+
+class Manager {
+    static let sharedInstance = Manager()
 }

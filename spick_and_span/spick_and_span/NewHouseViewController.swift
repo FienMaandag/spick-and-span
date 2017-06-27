@@ -22,13 +22,10 @@ class NewHouseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        addButton.layer.borderWidth = 1
-        addButton.layer.borderColor = UIColor.white.cgColor
-        
-        createButton.layer.borderWidth = 1
-        createButton.layer.borderColor = UIColor.white.cgColor
+        whiteBorder(button: addButton)
+        whiteBorder(button: createButton)
 
-        self.hideKeyboardWhenTappedAround()
+        hideKeyboardWhenTappedAround()
     }
 
     override func didReceiveMemoryWarning() {

@@ -30,7 +30,6 @@ class HistoryViewController: UIViewController, UITableViewDataSource, UITableVie
         }) { (error) in
             print(error.localizedDescription)
         }
-
     }
 
     override func didReceiveMemoryWarning() {
