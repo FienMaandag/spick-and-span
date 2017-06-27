@@ -109,7 +109,8 @@ class LoginViewController: UIViewController {
                                          style: .default)
         
         alert.addTextField { email in
-        email.placeholder = "Email"
+            email.placeholder = "Email"
+            email.keyboardType = .emailAddress
         }
     
         alert.addTextField { password in

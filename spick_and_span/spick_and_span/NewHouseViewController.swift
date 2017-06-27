@@ -28,10 +28,20 @@ class NewHouseViewController: UIViewController {
         hideKeyboardWhenTappedAround()
     }
 
+    @IBAction func userHouseInputTouched(_ sender: Any) {
+        NotificationCenter.default.addObserver(self, selector: #selector(UIViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(UIViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+
+    @IBAction func userKeyInputTouched(_ sender: Any) {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
+    
     @IBAction func addButtonClicked(_ sender: Any) {
         guard let houseKey = userCodeInput.text, !houseKey.isEmpty else {
             simpleAlert(title: "No Input", message: "Please enter a house key", actionTitle: "ok")
@@ -40,12 +50,15 @@ class NewHouseViewController: UIViewController {
 
         ref.child("houses").child(houseKey).observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
-            let houseName = value?["houseName"] as? String ?? ""
+            
+            guard let houseName = value?["houseName"] as? String, !houseName.isEmpty else {
+                self.simpleAlert(title: "Not Founds", message: "There is no house connected to this house key", actionTitle: "ok")
+                return
+            }
             
             self.addHouseAlert(houseName: houseName, houseKey: houseKey)
         }) { (error) in
             print(error.localizedDescription)
-            self.simpleAlert(title: "Not Founds", message: "There is no house connected to this house key", actionTitle: "ok")
         }
     }
     
