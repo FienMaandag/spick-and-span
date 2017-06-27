@@ -51,20 +51,10 @@ class LoginViewController: UIViewController {
                 self.checkHouse()
             }
             else{
-                let alert = UIAlertController(title: "Login Problems",
-                                              message: "This combination of username and password is not recognized",
-                                              preferredStyle: .alert)
+                self.simpleAlert(title: "Login Problems", message: "This combination of username and password is not recognized", actionTitle: "Ok")
                 
-                // Closes alert
-                let okAction = UIAlertAction(title: "OK!",
-                                             style: .default) { action in
-                    self.userEmailInput.text = ""
-                    self.userPasswordInput.text = ""
-                }
-                
-                alert.addAction(okAction)
-                
-                self.present(alert, animated: true, completion: nil)
+                self.userEmailInput.text = ""
+                self.userPasswordInput.text = ""
             }
         }
     }
@@ -77,12 +67,11 @@ class LoginViewController: UIViewController {
                 self.houseName = value["houseName"] as? String ?? ""
                 
                 self.performSegue(withIdentifier: "toHouseVC", sender: nil)
-            }
-                
-            else {
+            } else {
                 self.performSegue(withIdentifier: "toNewHouseVC", sender: nil)
             }
         }) { (error) in
+            self.simpleAlert(title: "No User Found", message: "You are not logged in, please log in", actionTitle: "Ok")
             print(error.localizedDescription)
         }
     }
@@ -93,38 +82,25 @@ class LoginViewController: UIViewController {
                                       preferredStyle: .alert)
         
         let registerAction = UIAlertAction(title: "Register", style: .default) { action in
-            let emailField = alert.textFields![0]
-            let passwordField = alert.textFields![1]
-
-            let email = emailField.text
-            let password = passwordField.text
-
-            if email != nil && password != nil {
-                Auth.auth().createUser(withEmail: email!, password: password!) { (user, error) in
-                    if error == nil {
-                        Auth.auth().signIn(withEmail: email!, password: password!) { (user, error) in
-                            if error == nil {
-                                self.performSegue(withIdentifier: "toNewHouseVC", sender: nil)
-                            }
+            guard let email = alert.textFields![0].text, !email.isEmpty else {
+                self.simpleAlert(title: "No Input", message: "Please insert an email adres", actionTitle: "Ok")
+                return
+            }
+            guard let password = alert.textFields![1].text, !email.isEmpty else {
+                self.simpleAlert(title: "No Input", message: "Please insert a password", actionTitle: "Ok")
+                return
+            }
+            
+            Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+                if error == nil {
+                    Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+                        if error == nil {
+                            self.performSegue(withIdentifier: "toNewHouseVC", sender: nil)
                         }
-                    } else{
-                        let alert = UIAlertController(title: "Register Problems",
-                                                      message: "Please enter a valid email adress ",
-                                                      preferredStyle: .alert)
-                        let okAction = UIAlertAction(title: "OK!",
-                                                     style: .default)
-                        alert.addAction(okAction)
-                        self.present(alert, animated: true, completion: nil)
                     }
+                } else {
+                    self.simpleAlert(title: "Register Problems", message: "Please enter a valid email adress and password", actionTitle: "Ok")
                 }
-            } else{
-                let alert = UIAlertController(title: "Register Problems",
-                                              message: "Please enter an email adress and password ",
-                                              preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "OK!",
-                                             style: .default)
-                alert.addAction(okAction)
-                self.present(alert, animated: true, completion: nil)
             }
         }
         
