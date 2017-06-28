@@ -23,6 +23,7 @@ class HouseViewController: UIViewController, UITableViewDelegate, UITableViewDat
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Lookup housekey and name for current user
         ref.child("users").child((currentUser?.uid)!).observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
             self.houseName = value?["houseName"] as? String ?? ""
@@ -54,8 +55,8 @@ class HouseViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return cell
     }
     
+    // Load rooms for current house
     func loadRooms(){
-        
         let searchRef = ref.child("houses/\(self.houseKey)/rooms")
         
         searchRef.observe(.value, with: { snapshot in
@@ -71,8 +72,8 @@ class HouseViewController: UIViewController, UITableViewDelegate, UITableViewDat
         })
     }
     
+    // Add a new room
     @IBAction func addRoomButtonClicked(_ sender: UIBarButtonItem) {
-
         let alert = UIAlertController(title: "New Room",
                                       message: "Choose a name for your room",
                                       preferredStyle: .alert)
@@ -87,7 +88,6 @@ class HouseViewController: UIViewController, UITableViewDelegate, UITableViewDat
             
             // add room to firebase
             let newRoom = Rooms(addedByUser: (self.currentUser?.uid)!,
-                                priorityRoom: "0",
                                 nameRoom: text)
             let houseRef = self.ref.child("houses/\(self.houseKey)/rooms/\(text)")
 

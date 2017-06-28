@@ -292,8 +292,7 @@
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="leaveHouseButtonClicked:" destination="bHJ-2Q-hQX" eventType="touchUpInside" id="K5X-sm-wW3"/>
-                                    <action selector="sendMailButtonClicked:" destination="Dpn-pl-Ltm" eventType="touchUpInside" id="mIb-zB-m2s"/>
+                                    <action selector="shareButtonClicked:" destination="Dpn-pl-Ltm" eventType="touchUpInside" id="kfD-5J-A4o"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wT8-3Z-yI8">
@@ -348,7 +347,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="mcD-UE-mGA">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                                 <color key="backgroundColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="separatorColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
@@ -733,8 +732,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Yzh-xQ-cf0">
-                                <rect key="frame" x="0.0" y="84.5" width="375" height="582.5"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Yzh-xQ-cf0">
+                                <rect key="frame" x="0.0" y="84.5" width="375" height="533.5"/>
                                 <color key="backgroundColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="separatorColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
@@ -751,8 +750,8 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IrH-w0-A8g">
-                                                    <rect key="frame" x="8" y="12" width="46.5" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IrH-w0-A8g">
+                                                    <rect key="frame" x="8" y="0.0" width="47" height="43"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-UltraLight" family="Helvetica Neue" pointSize="25"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -765,7 +764,6 @@
                                                 <constraint firstAttribute="bottomMargin" secondItem="IrH-w0-A8g" secondAttribute="bottom" constant="3" id="VhW-As-KPa"/>
                                                 <constraint firstItem="IrH-w0-A8g" firstAttribute="leading" secondItem="PVM-nx-iIO" secondAttribute="leadingMargin" id="djK-lX-bFB"/>
                                                 <constraint firstItem="iDt-Wg-4AN" firstAttribute="trailing" secondItem="PVM-nx-iIO" secondAttribute="trailingMargin" id="gq9-dp-F35"/>
-                                                <constraint firstItem="IrH-w0-A8g" firstAttribute="top" secondItem="PVM-nx-iIO" secondAttribute="topMargin" constant="4" id="uYY-kC-Ft8"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -875,7 +873,7 @@
         <image name="settings" width="16" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="amj-cN-CWQ"/>
-        <segue reference="9al-E3-JKQ"/>
+        <segue reference="klm-Rh-D7u"/>
+        <segue reference="i6u-uo-rJV"/>
     </inferredMetricsTieBreakers>
 </document>

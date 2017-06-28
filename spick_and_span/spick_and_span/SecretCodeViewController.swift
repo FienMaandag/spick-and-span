@@ -21,29 +21,30 @@ class SecretCodeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Layout setup
         whiteBorder(button: toHouseButton)
         
+        // Get current users housekey and housename
         ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
-            // Get user value
             let value = snapshot.value as? NSDictionary
             let houseKey = value?["houseKey"] as? String ?? ""
             let houseName = value?["houseName"] as? String ?? ""
             
             self.houseNameLabel.text = houseName.uppercased()
             self.houseKeyLabel.text = houseKey
-
         }) { (error) in
             print(error.localizedDescription)
         }
-        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    @IBAction func sendMailButtonClicked(_ sender: Any) {
-        let message = "Join \(String(describing: self.houseNameLabel.text!)) with the housekey: \(String(describing: self.houseKeyLabel.text!)))"
+    // Share the housekey
+    @IBAction func shareButtonClicked(_ sender: Any) {
+        let message = "Join \(String(describing: self.houseNameLabel.text!)) with the housekey: \(String(describing: self.houseKeyLabel.text!))"
         
         let activityViewController : UIActivityViewController = UIActivityViewController(
             activityItems: [message], applicationActivities: nil)

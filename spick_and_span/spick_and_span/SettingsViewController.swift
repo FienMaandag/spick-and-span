@@ -60,6 +60,15 @@ class SettingsViewController: UIViewController {
         ref.child("houses/\(houseKey)/users/\(currentUser!)").removeValue()
         ref.child("users/\(currentUser!)").removeValue()
         
+        // Check if house still has users otherwise delete entire house
+        ref.child("houses/\(houseKey)").observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.hasChild("users") {
+                return
+            } else {
+                self.ref.child("houses/\(self.houseKey)").removeValue()
+            }
+        })
+        
         // return to startscreen
         self.performSegue(withIdentifier: "fromSettingsToLoginVC", sender: nil)
     }

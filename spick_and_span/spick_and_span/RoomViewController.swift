@@ -24,9 +24,9 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.navigationItem.title = self.roomName
 
+        self.navigationItem.title = self.roomName
+        
         ref.child("users").child((currentUser?.uid)!).observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
             self.houseKey = value?["houseKey"] as? String ?? ""
@@ -65,8 +65,14 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let sinceDone = DateInterval(start: lastDoneDate, end: currentData).duration
             let frequency = tasks[indexPath.row].taskFrequency
             
-            let priority = (Float(sinceDone) / Float(frequency)) * 100
+            var priority = (Float(sinceDone) / Float(frequency)) * 100
+            
+            if frequency == 0 {
+                priority = 0
+            }
+            
             self.priorityLevel = Int(priority)
+
         } else {
             self.priorityLevel = 100
         }
@@ -147,12 +153,16 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
             
             // Update total points
             let usersRef = self.ref.child("users")
+            
             usersRef.child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
                 let value = snapshot.value as? NSDictionary
+                
                 let points = value?["totalPoints"] as? Int ?? 0
                 
                 let newTotal = taskPoints + points
                 usersRef.child("\(userID!)/totalPoints").setValue(newTotal)
+                
+
             }) { (error) in
                 print(error.localizedDescription)
             }
@@ -198,8 +208,7 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let newTask = Tasks(taskDone: "",
                                 taskFrequency: taskFrequency,
                                 taskName: taskName,
-                                taskPoints: taskPoints!,
-                                taskPriority: "")
+                                taskPoints: taskPoints!)
                 
             roomRef.setValue(newTask.toAnyObject())
         }
@@ -213,7 +222,7 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         
         alert.addTextField { taskFrequency in
-            taskFrequency.placeholder = "Task Frequency"
+            taskFrequency.placeholder = "Once Every .. Days"
             taskFrequency.keyboardType = .numberPad
         }
         

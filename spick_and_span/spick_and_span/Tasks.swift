@@ -15,14 +15,12 @@ struct Tasks {
     let taskFrequency: Int
     let taskName: String
     let taskPoints: Int
-    let taskPriority: String
     
-    init(taskDone: String, taskFrequency: Int, taskName: String, taskPoints: Int, taskPriority: String) {
+    init(taskDone: String, taskFrequency: Int, taskName: String, taskPoints: Int) {
         self.taskDone = taskDone
         self.taskFrequency = taskFrequency
         self.taskName = taskName
         self.taskPoints = taskPoints
-        self.taskPriority = taskPriority
 
     }
     
@@ -33,7 +31,6 @@ struct Tasks {
         taskFrequency = snapshotValue["taskFrequency"] as! Int
         taskName = snapshotValue["taskName"] as! String
         taskPoints = snapshotValue["taskPoints"] as! Int
-        taskPriority = snapshotValue["taskPriority"] as! String
     }
     
     func toAnyObject() -> Any {
@@ -41,8 +38,7 @@ struct Tasks {
             "taskDone": taskDone,
             "taskFrequency": taskFrequency,
             "taskName": taskName,
-            "taskPoints": taskPoints,
-            "taskPriority": taskPriority
+            "taskPoints": taskPoints
         ]
     }
     

@@ -15,6 +15,7 @@ class ScoreBoardViewController: UIViewController, UITableViewDelegate, UITableVi
     
     var houseKey = String()
     var users: [Users] = []
+    var history: [History] = []
     
     let ref = Database.database().reference()
     let currentUser = Auth.auth().currentUser

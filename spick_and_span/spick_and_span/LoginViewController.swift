@@ -21,10 +21,11 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Layout setup
         whiteBorder(button: loginButton)
-        
         hideKeyboardWhenTappedAround()
         
+        // Check if a user is signed in
         if Auth.auth().currentUser != nil {
             ref = Database.database().reference()
             currentUser = (Auth.auth().currentUser?.uid)!
@@ -37,6 +38,7 @@ class LoginViewController: UIViewController {
     }
 
     @IBAction func loginButtonClicked(_ sender: Any) {
+        // Check for email and password input
         guard let email = userEmailInput.text, !email.isEmpty else {
             self.simpleAlert(title: "No Input", message: "Please enter an email adress", actionTitle: "Ok")
             return
@@ -46,6 +48,7 @@ class LoginViewController: UIViewController {
             return
         }
         
+        // Sign in user
         Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
             if error == nil {
                 self.ref = Database.database().reference()
@@ -54,34 +57,22 @@ class LoginViewController: UIViewController {
                 self.checkHouse()
             }
             else{
-                self.simpleAlert(title: "Login Problems", message: "This combination of username and password is not recognized", actionTitle: "Ok")
+                self.loginProblemAlert(email: email)
                 
                 self.userEmailInput.text = ""
                 self.userPasswordInput.text = ""
             }
         }
     }
-    
-    func checkHouse(){
-        // check if user is in table users
-        self.ref.child("users").child(self.currentUser).observeSingleEvent(of: .value, with: { (snapshot) in
-            if (snapshot.value as? NSDictionary) != nil {
-                self.performSegue(withIdentifier: "toHouseVC", sender: nil)
-            } else {
-                self.performSegue(withIdentifier: "toNewHouseVC", sender: nil)
-            }
-        }) { (error) in
-            self.simpleAlert(title: "No User Found", message: "You are not logged in, please log in", actionTitle: "Ok")
-            print(error.localizedDescription)
-        }
-    }
 
+    // Register user
     @IBAction func registerButtonClicked(_ sender: UIButton) {
         let alert = UIAlertController(title: "Register",
                                       message: "Register with email and password",
                                       preferredStyle: .alert)
         
         let registerAction = UIAlertAction(title: "Register", style: .default) { action in
+            // Check for email and password input
             guard let email = alert.textFields![0].text, !email.isEmpty else {
                 self.simpleAlert(title: "No Input", message: "Please insert an email adres", actionTitle: "Ok")
                 return
@@ -91,6 +82,7 @@ class LoginViewController: UIViewController {
                 return
             }
             
+            // Create and sign in user
             Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
                 if error == nil {
                     Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
@@ -104,7 +96,6 @@ class LoginViewController: UIViewController {
             }
         }
         
-        // Closes alert
         let cancelAction = UIAlertAction(title: "Cancel",
                                          style: .default)
         
@@ -122,6 +113,37 @@ class LoginViewController: UIViewController {
         alert.addAction(cancelAction)
         
         present(alert, animated: true, completion: nil)
+    }
+    
+    // Check if user is connected to a house and preform corresonding segue
+    func checkHouse(){
+        self.ref.child("users").child(self.currentUser).observeSingleEvent(of: .value, with: { (snapshot) in
+            if (snapshot.value as? NSDictionary) != nil {
+                self.performSegue(withIdentifier: "toHouseVC", sender: nil)
+            } else {
+                self.performSegue(withIdentifier: "toNewHouseVC", sender: nil)
+            }
+        }) { (error) in
+            self.simpleAlert(title: "No User Found", message: "You are not logged in, please log in", actionTitle: "Ok")
+            print(error.localizedDescription)
+        }
+    }
+    
+    // Alert when impossible to sign user in, with possibility to reset password
+    func loginProblemAlert(email: String) {
+        let alert = UIAlertController(title: "Login Problems", message: "This combination of username and password is not recognized", preferredStyle: .alert)
+        
+        let tryAgainAction = UIAlertAction(title: "Try Again", style: .default)
+        
+        let resetAction = UIAlertAction(title: "Reset Password", style: .default) { action in
+            Auth.auth().sendPasswordReset(withEmail: email) { (error) in
+            }
+        }
+        
+        alert.addAction(tryAgainAction)
+        alert.addAction(resetAction)
+        
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
