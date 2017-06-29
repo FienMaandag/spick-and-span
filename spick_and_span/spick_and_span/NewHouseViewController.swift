@@ -55,7 +55,6 @@ class NewHouseViewController: UIViewController {
         // Look up house in database, check for existence
         ref.child("houses").child(houseKey).observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
-            
             guard let houseName = value?["houseName"] as? String, !houseName.isEmpty else {
                 self.simpleAlert(title: "Not Founds", message: "There is no house connected to this house key", actionTitle: "ok")
                 return

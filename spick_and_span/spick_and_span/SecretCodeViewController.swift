@@ -43,7 +43,7 @@ class SecretCodeViewController: UIViewController {
     }
     
     // Share the housekey
-    @IBAction func shareButtonClicked(_ sender: Any) {
+    @IBAction func shareButtonClicked(_ sender: Any) {        
         let message = "Join \(String(describing: self.houseNameLabel.text!)) with the housekey: \(String(describing: self.houseKeyLabel.text!))"
         
         let activityViewController : UIActivityViewController = UIActivityViewController(
