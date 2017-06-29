@@ -58,23 +58,7 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         // Check if task is already done and set priority level accordingly
         if tasks[indexPath.row].taskDone != ""{
-            let lastDone = tasks[indexPath.row].taskDone
-            let lastDoneDouble = TimeInterval(lastDone)
-            
-            let lastDoneDate = Date(timeIntervalSince1970: lastDoneDouble!)
-            let currentData = Date()
-            
-            let sinceDone = DateInterval(start: lastDoneDate, end: currentData).duration
-            let frequency = tasks[indexPath.row].taskFrequency
-            
-            var priority = (Float(sinceDone) / Float(frequency)) * 100
-            
-            if frequency == 0 {
-                priority = 0
-            }
-            
-            self.priorityLevel = Int(priority)
-
+            calculatePriority(row: indexPath.row)
         } else {
             self.priorityLevel = 100
         }
@@ -100,6 +84,25 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
         cell.taskNameLabel.text = tasks[indexPath.row].taskName.uppercased()
 
         return cell
+    }
+    
+    // Calculate priority level by comparing date done ande current date
+    func calculatePriority(row: Int){
+        let lastDone = tasks[row].taskDone
+        let lastDoneDouble = TimeInterval(lastDone)
+        
+        let lastDoneDate = Date(timeIntervalSince1970: lastDoneDouble!)
+        let currentData = Date()
+        
+        let sinceDone = DateInterval(start: lastDoneDate, end: currentData).duration
+        let frequency = tasks[row].taskFrequency
+        
+        var priority = (Float(sinceDone) / Float(frequency)) * 100
+        
+        if frequency == 0 {
+            priority = 0
+        }
+        self.priorityLevel = Int(priority)
     }
     
     // Load tasks from Firebase

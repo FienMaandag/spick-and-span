@@ -91,9 +91,7 @@ class NewHouseViewController: UIViewController {
                 "houseName": houseName,
                 "houseKey": houseRef.key,
                 "users": ([
-                    "\((self.currentUser?.uid)!)": newUser.toAnyObject()
-                ])
-            ])
+                    "\((self.currentUser?.uid)!)": newUser.toAnyObject() ]) ])
             
             userRef.setValue([
                 "houseKey": houseRef.key,
@@ -104,7 +102,6 @@ class NewHouseViewController: UIViewController {
         
         let cancelAction = UIAlertAction(title: "Cancel",
                                          style: .default)
-        
         alert.addAction(createAction)
         alert.addAction(cancelAction)
         
