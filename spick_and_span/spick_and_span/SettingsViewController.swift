@@ -25,7 +25,7 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
         whiteBorder(button: logOutButton)
 
-        // find current houseKey to remove user from it
+        // Look up housekey and housename for currentuser
         ref.child("users").child(currentUser!).observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
             self.houseKey = value?["houseKey"] as? String ?? ""
@@ -35,12 +35,13 @@ class SettingsViewController: UIViewController {
         }) { (error) in
             print(error.localizedDescription)
         }
-
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    // Share housekey
     @IBAction func shareButtonClicked(_ sender: UIButton) {
         let message = "Join \(String(describing: self.houseName)) with the housekey: \(String(describing: self.houseKey)))"
         
@@ -54,6 +55,7 @@ class SettingsViewController: UIViewController {
         self.present(activityViewController, animated: true, completion: nil)
     }
     
+    // Leave house for currentuser and return to loginview
     @IBAction func leaveHouseButtonClicked(_ sender: UIButton) {
         
         // remove from firebase
@@ -68,11 +70,11 @@ class SettingsViewController: UIViewController {
                 self.ref.child("houses/\(self.houseKey)").removeValue()
             }
         })
-        
         // return to startscreen
         self.performSegue(withIdentifier: "fromSettingsToLoginVC", sender: nil)
     }
     
+    // Logout currentuser and return to loginview
     @IBAction func logOutButtonClicked(_ sender: UIButton) {
         
         // log out and return to startscreen
@@ -84,5 +86,4 @@ class SettingsViewController: UIViewController {
             print ("Error signing out: %@", signOutError)
         }
     }
-
 }

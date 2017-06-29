@@ -27,6 +27,7 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
         self.navigationItem.title = self.roomName
         
+        // Lookup housekey for current user
         ref.child("users").child((currentUser?.uid)!).observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
             self.houseKey = value?["houseKey"] as? String ?? ""
@@ -55,6 +56,7 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell 	{
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "TasksCell", for: indexPath as IndexPath) as! TaskTableViewCell
         
+        // Check if task is already done and set priority level accordingly
         if tasks[indexPath.row].taskDone != ""{
             let lastDone = tasks[indexPath.row].taskDone
             let lastDoneDouble = TimeInterval(lastDone)
@@ -77,6 +79,7 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
             self.priorityLevel = 100
         }
         
+        // Set color for priority level that has been caculated
         if 0 ... 25 ~= self.priorityLevel{
             cell.priorityTaskLabel.text = "LOW"
             cell.priorityTaskLabel.textColor = UIColor.green
@@ -99,6 +102,7 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return cell
     }
     
+    // Load tasks from Firebase
     func loadTasks(){
         
         let searchRef = ref.child("rooms/\(roomName)/tasks")
@@ -114,7 +118,6 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
             self.tasks = newTasks
             self.tableView.reloadData()
         })
-        
     }
     
     // done button
@@ -125,6 +128,7 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
         let done = UITableViewRowAction(style: .normal, title: "Done") { action, index in
 
+            // Save variables
             let indexPath = editActionsForRowAt
             let selectedTask = self.tasks[indexPath.row].taskName
             let taskPoints = self.tasks[indexPath.row].taskPoints
@@ -167,6 +171,7 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 print(error.localizedDescription)
             }
             
+            // Congratulate user with points
             self.simpleAlert(title: "Points", message: "You've earned \(taskPoints) points!", actionTitle: "Jeeh!")
         }
         done.backgroundColor = .green
@@ -174,8 +179,10 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return [done]
     }
     
+    // Add a new task
     @IBAction func addTaskButtonClicked(_ sender: UIBarButtonItem) {
         
+        // Open alert to create new task
         let alert = UIAlertController(title: "New Task",
                                       message: "Configure a new task",
                                       preferredStyle: .alert)
@@ -187,17 +194,17 @@ class RoomViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 return
             }
             
+            // Check for user input
             guard let taskFrequencyField = alert.textFields![1].text, !taskFrequencyField.isEmpty else{
                 self.simpleAlert(title: "No Input", message: "Please enter a task frequency", actionTitle: "ok")
                 return
             }
-
             guard let taskPointsField = alert.textFields![2].text, !taskPointsField.isEmpty else{
                 self.simpleAlert(title: "No Input", message: "Please enter the task points", actionTitle: "ok")
                 return
             }
 
-            
+            // Save name, frequency and points
             let taskName = taskNameField.capitalized
             let taskFrequency = Int(taskFrequencyField)! * 86400
             let taskPoints = Int(taskPointsField)

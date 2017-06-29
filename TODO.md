@@ -1,8 +1,5 @@
 # To Do List
 
-- Style done buton
-- Priotity word? or image?
-- License document
 - Check better code hub to better the code
 - Add comments
 - Change secret code to house key
@@ -13,5 +10,3 @@
 - create a function for priotrity level calculation
 - load function ?
 - function select cell chaneg
-- delete history in scoreboard view controller
-- keep email but not password 

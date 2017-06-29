@@ -15,7 +15,6 @@ class ScoreBoardViewController: UIViewController, UITableViewDelegate, UITableVi
     
     var houseKey = String()
     var users: [Users] = []
-    var history: [History] = []
     
     let ref = Database.database().reference()
     let currentUser = Auth.auth().currentUser
@@ -23,16 +22,15 @@ class ScoreBoardViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Look up housekey for current user
         ref.child("users").child((currentUser?.uid)!).observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
             self.houseKey = value?["houseKey"] as? String ?? ""
             
             self.loadUsers()
-            
         }) { (error) in
             print(error.localizedDescription)
         }
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,14 +47,15 @@ class ScoreBoardViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell 	{
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "scoreCell", for: indexPath as IndexPath) as! HighScoreTableViewCell
         
+        // Set name from email as user label
         let userEmail = users[indexPath.row].userEmail
         var user = userEmail.components(separatedBy: "@")
-        
         cell.userLabel.text = user[0]
         cell.pointsLabel.text = String(users[indexPath.row].totalPoints)
         return cell
     }
     
+    // Load users for house from Firebase
     func loadUsers(){
         
         let searchRef = ref.child("houses/\(self.houseKey)/users").queryOrdered(byChild: "totalPoints")
@@ -72,7 +71,5 @@ class ScoreBoardViewController: UIViewController, UITableViewDelegate, UITableVi
             self.users = newUsers.reversed()
             self.tableView.reloadData()
         })
-        
     }
-
 }

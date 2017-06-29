@@ -55,5 +55,4 @@ class SecretCodeViewController: UIViewController {
         
         self.present(activityViewController, animated: true, completion: nil)
     }
-    
 }

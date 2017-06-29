@@ -21,12 +21,12 @@ class HistoryViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Look up housekey for currentuser
         ref.child("users/\((currentUser?.uid)!)").observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
             self.houseKey = value?["houseKey"] as? String ?? ""
             
             self.loadHistory()
-            
         }) { (error) in
             print(error.localizedDescription)
         }
@@ -34,7 +34,6 @@ class HistoryViewController: UIViewController, UITableViewDataSource, UITableVie
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -45,6 +44,7 @@ class HistoryViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell 	{
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "historyCell", for: indexPath as IndexPath) as! HistoryTableViewCell
         
+        // Use start of email as user name
         let doneBy = history[indexPath.row].doneBy
         var doneByUser = doneBy.components(separatedBy: "@")
         
@@ -53,6 +53,7 @@ class HistoryViewController: UIViewController, UITableViewDataSource, UITableVie
         return cell
     }
     
+    // Load history from Firebase
     func loadHistory(){
         
         let searchRef = ref.child("houses/\(self.houseKey)/history")
@@ -68,9 +69,9 @@ class HistoryViewController: UIViewController, UITableViewDataSource, UITableVie
             self.history = newHistory.reversed()
             self.tableView.reloadData()
         })
-        
     }
     
+    // Change done by to date when cell tapped
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = self.tableView.cellForRow(at: indexPath) as! HistoryTableViewCell
         
@@ -88,10 +89,5 @@ class HistoryViewController: UIViewController, UITableViewDataSource, UITableVie
         } else {
             cell.userLabel.text = doneByUser[0]
         }
-
     }
-
-
-
-
 }

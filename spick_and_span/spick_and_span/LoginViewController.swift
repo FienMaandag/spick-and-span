@@ -58,8 +58,6 @@ class LoginViewController: UIViewController {
             }
             else{
                 self.loginProblemAlert(email: email)
-                
-                self.userEmailInput.text = ""
                 self.userPasswordInput.text = ""
             }
         }

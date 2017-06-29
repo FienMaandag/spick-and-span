@@ -57,7 +57,3 @@ extension UIViewController {
         }
     }
 }
-
-class Manager {
-    static let sharedInstance = Manager()
-}

@@ -17,6 +17,9 @@ Spick-and-Span is an app for people who share a household. It helps the user kee
 All the code in this project written by Fien Maandag is hereby released to the public without any restrictions.
 
 # Sources of external code
+Keyboard slide up code used: https://stackoverflow.com/questions/26070242/move-view-with-keyboard-using-swift
+Keyboard dissapear when tapped around code used: https://stackoverflow.com/questions/24126678/close-ios-keyboard-by-touching-anywhere-using-swift
+
 
 
 # Better code hub badge

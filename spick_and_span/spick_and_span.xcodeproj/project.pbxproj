@@ -21,7 +21,6 @@
 		211F80EF1EE831EF005E1357 /* ScoreBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211F80EE1EE831EE005E1357 /* ScoreBoardViewController.swift */; };
 		211F80F11EE83242005E1357 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211F80F01EE83242005E1357 /* HistoryViewController.swift */; };
 		211F80F31EE8326E005E1357 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211F80F21EE8326E005E1357 /* SettingsViewController.swift */; };
-		2135DFEB1EFBEF94003078E0 /* ScoresUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2135DFEA1EFBEF94003078E0 /* ScoresUserViewController.swift */; };
 		214509101EE986340060F79B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2145090F1EE986340060F79B /* GoogleService-Info.plist */; };
 		216555FE1EEEAC8B00C61FC9 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216555FD1EEEAC8B00C61FC9 /* Util.swift */; };
 		219F73601EF2B38C00A82793 /* Rooms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F735F1EF2B38C00A82793 /* Rooms.swift */; };
@@ -51,7 +50,6 @@
 		211F80EE1EE831EE005E1357 /* ScoreBoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreBoardViewController.swift; sourceTree = "<group>"; };
 		211F80F01EE83242005E1357 /* HistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		211F80F21EE8326E005E1357 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		2135DFEA1EFBEF94003078E0 /* ScoresUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoresUserViewController.swift; sourceTree = "<group>"; };
 		2145090F1EE986340060F79B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		216555FD1EEEAC8B00C61FC9 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		219F735F1EF2B38C00A82793 /* Rooms.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rooms.swift; sourceTree = "<group>"; };
@@ -132,7 +130,6 @@
 				211F80E21EE80C39005E1357 /* HouseViewController.swift */,
 				211F80EA1EE81245005E1357 /* RoomViewController.swift */,
 				211F80EE1EE831EE005E1357 /* ScoreBoardViewController.swift */,
-				2135DFEA1EFBEF94003078E0 /* ScoresUserViewController.swift */,
 				211F80F21EE8326E005E1357 /* SettingsViewController.swift */,
 				211F80F01EE83242005E1357 /* HistoryViewController.swift */,
 			);
@@ -301,7 +298,6 @@
 				211F80E91EE80F80005E1357 /* RoomTableViewCell.swift in Sources */,
 				211F80F31EE8326E005E1357 /* SettingsViewController.swift in Sources */,
 				211F80E51EE80C8D005E1357 /* NewHouseViewController.swift in Sources */,
-				2135DFEB1EFBEF94003078E0 /* ScoresUserViewController.swift in Sources */,
 				211F80F11EE83242005E1357 /* HistoryViewController.swift in Sources */,
 				211F80EB1EE81245005E1357 /* RoomViewController.swift in Sources */,
 				211F80D31EE75713005E1357 /* LoginViewController.swift in Sources */,
