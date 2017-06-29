@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '87EDECEB9894E05C3114F089454F4D64'
+               BlueprintIdentifier = '365688848C7F83AA883D1720F37D5BF1'
                BlueprintName = 'Pods-spick_and_span'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'Pods-spick_and_span.framework'>
