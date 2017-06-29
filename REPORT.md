@@ -56,9 +56,9 @@ This view shows the tasks that need to be done in the selected room with the cor
 #### Functions, Struct’s and Classes
 - tasks: [Tasks]: A struct that represents the task information in Firebase, this contains the name, frequency, points and when lastly done.
 - loadTasks(): Loads the tasks that are saved in Firebase for the selected room, appends them to a local list tasks and reloads the table view.
-- priority calculation
-- donebutton
+- doneButton: Save current date to Firebase, update history, update priority, update users total points and congratulate user with new points.
 - addTaskButtonClicked(): Opens an alert where the user can insert the task name, frequency and points. This is saved in Firebase.
+- priorityCalculation(): Calculates the priority for the given task by comparing the current that and the date it is lastly done.
 
 ### History View Controller
 This view is shown if the user selects History in the tab bar.
@@ -67,7 +67,6 @@ Here the user has an overview of all the tasks that are done in the house, by wh
 #### Functions, Struct’s and Classes
 - history: [History]: A struct that represents the history information in Firebase, this contains by who the task is done, what task is done and when.
 - loadHistory(): Loads the history that is saved in firebase, appends them to a local list history, sorts them reversed and reloads the table view.
-- select cell function.
 
 ### Score Board View Controller
 This view is shown if the user selects Scoreboard in the tab bar.
