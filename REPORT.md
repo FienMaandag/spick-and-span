@@ -1,7 +1,7 @@
 # Report about Spick-and-Span by Fien Maandag
 
 ## Short Description
-Spick-and-Span is an app for people who share a household. It helps the user keep track of what tasks need to be done in the house and who’s turn it is to do some tasks. The user can create a house with rooms, tasks for each room and assigning a frequency and points to each task. It is a positively orientated solution for a schedule on paper. It is positively orientated because it does not force anyone to do certain tasks at certain moments but instead positively reinforces people for doing tasks. Spick-and-Span is also an improvement relative to a paper schedule since it gives the opportunity to do the tasks in the house that you prefer, give more exact information about which tasks need to be done and provides a clear overview of the tasks done and by who they are done.
+Spick-and-Span is an app for people who share a household. It helps the user keep track of what tasks need to be done in the house and who’s turn it is to do some tasks. The user can create a house with rooms, tasks for each room and assigning a frequency and points to each task.
 
 ## Technical Design
 
@@ -87,7 +87,7 @@ Here the user can share the house key, leave the house and log out.
 - logOutButtonClicked(): Logs user out and preforms segue to login view.
 
 ## Development
-
-## To Do
-Clearly describe challenges that you have met during development. Document all important changes that you have made with regard to your design document (from the PROCESS.md). Here, we can see how much you have learned in the past month.
-Defend your decisions by writing an argument of a most a single paragraph. Why was it good to do it different than you thought before? Are there trade-offs for your current solution? In an ideal world, given much more time, would you choose another solution?
+During the development of this app certain changes have been made. The first original idea was to create an cleaning schedule app, with date’s and calendars. It was very quickly decided that it was a better idea to use a different approach. This approach was the use of a point system instead of a schedule system. This would make the app more original and less demanding of the user. When pitching the schedule system to friends they immediately stated I would never want this app telling me I have to clean.
+A second decision was to set up the database in a way that is sorted by a house key and then let users join the house via this house key. This makes it easier to let user join and leave the house since you don’t need permission from certain users or have a search option. It also makes it easier to find out to what house a user is connected. It does make it very necessary that the user inserts exactly the correct code, which can be difficult since the codes are rather complex. But the option to share the code via the app makes this problem less problematic.
+Furthermore the decision was made to change the hamburger menu to the tab bar at the bottom of the page. This decision was made because it is more IOS like. Since this is an IOS app this would result in an better understandable user interface. It also had as effect that the leave house, house key and log out option were merged together to settings. This turned out to be better for the overview in the app.
+Some changes were also made within the types for certain variables. Problems occurred when saving a data and numbers. These problems occurred because it is not allowed to save a date and calculations with strings is not possible. By converting these variables the problems were resolved.

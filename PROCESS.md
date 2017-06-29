@@ -39,13 +39,16 @@ Loading the data in tableviews seemed to go wrong still. Today this is all fixed
 Some of the types were not chosen right. Everything in firebase was saved as an string. Making it hard to sort them in a descending order. After figuring out that they could also be saved as an number I had to reorganize all the variables to ints and this caused a lot of errors so was doing a lot of debugging today.
 
 # Day 18: 23 june
-Added an option for emailing the secretcode since it is such a hard code. This works now. Also did some layout fixing. A lot of views were not shown right. 
+Added an option for emailing the secretcode since it is such a hard code. This works now. Also did some layout fixing. A lot of views were not shown right.
 
 # Day 21: 26 june
 Today I decided to create a function for alerts since this is a lot of double code over several viewControlers. I also reorganised some elements to make the document more readable.
 
 # Day 22: 27 june
+Today I made some changes to how the keyboard is shown since it was overlapping with the textfield. I also started writing my report.
 
 # Day 23: 28 june
+Added options for forgot password, now also delete the house if it has no users. A fix with adding a nul value for frequency. Added an icon and a launch screen.
 
 # Day 24: 29 june
+Writing the report, adding some comments, look at better code hub to better the code.License document. 

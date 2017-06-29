@@ -1,8 +1,17 @@
 # To Do List
 
-- Think of a priority calculation for room
-- If a house does not have users, remove house?
-- Create the possibility to remove tasks
-- Add option to check if task is done
-- Style add task alert
-- create set to medium scores
+- Style done buton
+- Priotity word? or image?
+- License document
+- Check better code hub to better the code
+- Add comments
+- Change secret code to house key
+- Delete pods that are unnecesaary
+- sharebutton clicked to extension
+- delete key and ref from rooms
+- why added by user? in rooms. Never used
+- create a function for priotrity level calculation
+- load function ?
+- function select cell chaneg
+- delete history in scoreboard view controller
+- keep email but not password 

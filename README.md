@@ -1,46 +1,23 @@
-# spick-and-span
+# Spick an Span
 Spick-and-Span by Fien Maandag
 
-The Problem and the Solution
+# Purpose
+Spick-and-Span is an app for people who share a household. It helps the user keep track of what tasks need to be done in the house and who’s turn it is to do some tasks. The user can create a house with rooms, tasks for each room and assigning a frequency and points to each task. It is a positively orientated solution for a schedule on paper. It is positively orientated because it does not force anyone to do certain tasks at certain moments but instead positively reinforces people for doing tasks. Spick-and-Span is also an improvement relative to a paper schedule since it gives the opportunity to do the tasks in the house that you prefer, give more exact information about which tasks need to be done and provides a clear overview of the tasks done and by who they are done.
 
-Spick-and-Span is the app for everyone living with multiple people and having trouble keeping the house clean, this could be a big student house or a larger family. In this app you can add rooms and tasks that need to be fulfilled for this room. It is also possible to mark the cleaning duty done. By doing so you can earn points with which you can compare how much everyone has done in the house. This resolves the problem of uncertainty about who has done enough in the house. The app also keeps track of which tasks are most urgent, solving the problem of uncertainty about what should be done in the house.
+## Screenshots
+![Screenshot](/doc/LoginView.PNG) ![Screenshot](/doc/LoginView1.PNG)
+![Screenshot](/doc/NewHouseView.PNG) ![Screenshot](/doc/SecretCodeView.PNG)
+![Screenshot](/doc/HouseView.PNG) ![Screenshot](/doc/HouseView1.PNG)
+![Screenshot](/doc/RoomView.PNG) ![Screenshot](/doc/RoomView1.PNG) ![Screenshot](/doc/RoomView2.PNG)
+![Screenshot](/doc/HistoryView.PNG) ![Screenshot](/doc/HistoryView1.PNG)
+![Screenshot](/doc/ScoreboardView.PNG)
+![Screenshot](/doc/SettingsView.PNG) ![Screenshot](/doc/SettingsView1.PNG)
 
+# Copyright Statement
+All the code in this project written by Fien Maandag is hereby released to the public without any restrictions.
 
-Visual Sketch
-
-![Screenshot](/doc/S&S_Visual_Sketch.JPG)
-
-
-Data & External Components
-
-This app does not use data sets or data sources. It will use firebase as database to keep track off the activities within the house and which user belong to which house.
-
-
-Problems and Limitations
-
-Technical problems that could arise are problems concerning the log in or sharing a house. Other problems could arise dealing with the point system.
-Limitations of this app are that is does not concern planning. It is not possible to create a schedule for everyone in the house. The app also does not have prepared lists of cleaning tasks.  
+# Sources of external code
 
 
-Review
-
-One app has been found that serves a similar purpose as the proposed app which is called “Clean Freak Cleaning Schedule” since it wasn’t free the review is based on the description. It shows a list with chores that need to be done and the amount of days ago that is has been since the chore is done. It is a very basic version of the proposed app. The shown screenshot also shows a very basic layout design for an older version of software. The basis that is used in the “Clean Freak Cleaning Schedule” app can be used in the proposed app. Although it would need a lot of updating with the added functionality like the point system and the division of tasks in rooms.
-
-
-Minimum Viable Product
-
-The parts of the application that define the MVP are firstly the possibility to create and join a house. Secondly the ability to add tasks and mark tasks as done. And thirdly the option to see how urgently a task has to be fulfilled.
-Optional parts that could be added to this app are functionalities like:
-
-•	Rankings: Be a bathroom queen or roommate of the month
-
-•	Rewards for earning a lot of points: Change your points for rewards like a beer or a home cooked meal.
-
-•	Advanced point system: Do a tasks exactly on the day it should be done and get extra points.
-
-•	History: Who has done which tasks.
-
-• Several houses: Add more houses to one person.
-
+# Better code hub badge
 [![BCH compliance](https://bettercodehub.com/edge/badge/FienMaandag/spick-and-span?branch=master)](https://bettercodehub.com/)
-
